@@ -1,0 +1,6 @@
+purno a = 10;
+dosomik b = 3.14;
+
+jodi (a < 20) {
+    dekhao(a + b);
+}
