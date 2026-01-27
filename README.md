@@ -1,1 +1,1 @@
-# Rule-Based-Banglish-Compiler-With-Enhanced-Error-Detection
+# Rule-Based-Banglish-Compiler-With-Enhanced-Error-Reporting
