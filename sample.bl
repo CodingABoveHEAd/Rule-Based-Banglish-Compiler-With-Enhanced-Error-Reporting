@@ -1,6 +1,11 @@
-purno a = 10;
+purno a = 10;   // integer variable
 dosomik b = 3.14;
 
-jodi (a < 20) {
-    dekhao(a + b);
+/*
+  multi-line
+  comment test
+*/
+
+jodi (a <= b && a != 0) {
+    dekhao(a);
 }
