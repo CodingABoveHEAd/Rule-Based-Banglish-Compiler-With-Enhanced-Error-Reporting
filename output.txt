@@ -8,73 +8,78 @@ ID rate at line 4
 OPERATOR = at line 4
 FLOAT_LITERAL 3.14 at line 4
 OPERATOR ; at line 4
-IF_KW at line 6
-OPERATOR ( at line 6
-ID x at line 6
-OPERATOR >= at line 6
-INT_LITERAL 10 at line 6
-OPERATOR && at line 6
-ID rate at line 6
-OPERATOR != at line 6
-FLOAT_LITERAL 0.0 at line 6
-OPERATOR ) at line 6
-OPERATOR { at line 6
-PRINT_KW at line 7
-ID x at line 7
-OPERATOR ; at line 7
-OPERATOR } at line 8
-ELSE_KW at line 9
-OPERATOR { at line 9
-PRINT_KW at line 10
-ID rate at line 10
-OPERATOR ; at line 10
-OPERATOR } at line 11
-WHILE_KW at line 17
-OPERATOR ( at line 17
-ID x at line 17
-OPERATOR > at line 17
-INT_LITERAL 0 at line 17
-OPERATOR ) at line 17
-OPERATOR { at line 17
-ID x at line 18
-OPERATOR = at line 18
-ID x at line 18
-OPERATOR - at line 18
-INT_LITERAL 1 at line 18
-OPERATOR ; at line 18
-OPERATOR } at line 19
-FOR_KW at line 21
-OPERATOR ( at line 21
-INT_KW at line 21
-ID i at line 21
-OPERATOR = at line 21
-INT_LITERAL 0 at line 21
-OPERATOR ; at line 21
-ID i at line 21
-OPERATOR < at line 21
-INT_LITERAL 5 at line 21
-OPERATOR ; at line 21
-ID i at line 21
-OPERATOR = at line 21
-ID i at line 21
-OPERATOR + at line 21
-INT_LITERAL 1 at line 21
-OPERATOR ) at line 21
-OPERATOR { at line 21
-PRINT_KW at line 22
-ID i at line 22
-OPERATOR ; at line 22
-OPERATOR } at line 23
-Lexical Error: Invalid identifier '123abc' at line 30
-Lexical Error: Invalid numeric constant '12.3.4' at line 31
-Lexical Error: Illegal symbol '@' at line 32
-RETURN_KW at line 34
-ID x at line 34
-OPERATOR ; at line 34
+INT_LITERAL 15 at line 6
+OPERATOR / at line 6
+INT_LITERAL 0 at line 6
+Semantic Error: Division by zero detected at line 6
+OPERATOR ; at line 6
+IF_KW at line 8
+OPERATOR ( at line 8
+ID x at line 8
+OPERATOR >= at line 8
+INT_LITERAL 10 at line 8
+OPERATOR && at line 8
+ID rate at line 8
+OPERATOR != at line 8
+FLOAT_LITERAL 0.0 at line 8
+OPERATOR ) at line 8
+OPERATOR { at line 8
+PRINT_KW at line 9
+ID x at line 9
+OPERATOR ; at line 9
+OPERATOR } at line 10
+ELSE_KW at line 11
+OPERATOR { at line 11
+PRINT_KW at line 12
+ID rate at line 12
+OPERATOR ; at line 12
+OPERATOR } at line 13
+WHILE_KW at line 19
+OPERATOR ( at line 19
+ID x at line 19
+OPERATOR > at line 19
+INT_LITERAL 0 at line 19
+OPERATOR ) at line 19
+OPERATOR { at line 19
+ID x at line 20
+OPERATOR = at line 20
+ID x at line 20
+OPERATOR - at line 20
+INT_LITERAL 1 at line 20
+OPERATOR ; at line 20
+OPERATOR } at line 21
+FOR_KW at line 23
+OPERATOR ( at line 23
+INT_KW at line 23
+ID i at line 23
+OPERATOR = at line 23
+INT_LITERAL 0 at line 23
+OPERATOR ; at line 23
+ID i at line 23
+OPERATOR < at line 23
+INT_LITERAL 5 at line 23
+OPERATOR ; at line 23
+ID i at line 23
+OPERATOR = at line 23
+ID i at line 23
+OPERATOR + at line 23
+INT_LITERAL 1 at line 23
+OPERATOR ) at line 23
+OPERATOR { at line 23
+PRINT_KW at line 24
+ID i at line 24
+OPERATOR ; at line 24
+OPERATOR } at line 25
+Lexical Error: Invalid identifier '123abc' at line 32
+Lexical Error: Invalid numeric constant '12.3.4' at line 33
+Lexical Error: Illegal symbol '@' at line 34
+RETURN_KW at line 36
+ID x at line 36
+OPERATOR ; at line 36
 
 ===== LEXICAL ANALYSIS SUMMARY =====
 Keywords    : 11
 Identifiers : 15
-Literals    : 9
-Operators   : 35
-Errors      : 3
+Literals    : 11
+Operators   : 37
+Errors      : 4

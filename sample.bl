@@ -3,6 +3,8 @@
 purno x = 10;
 dosomik rate = 3.14;
 
+15/0;
+
 jodi (x >= 10 && rate != 0.0) {
     dekhao x;
 }

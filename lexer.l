@@ -11,6 +11,8 @@ int id_count = 0;
 int literal_count = 0;
 int operator_count = 0;
 int error_count = 0;
+int division_seen = 0;
+
 
 int comment_start_line = 0;
 %}
@@ -82,6 +84,15 @@ ghuro                   { fprintf(out, "FOR_KW at line %d\n", line_no); keyword_
 [0-9]+                  {
                             fprintf(out,"INT_LITERAL %s at line %d\n", yytext, line_no);
                             literal_count++;
+
+                            if (division_seen && strcmp(yytext, "0") == 0) {
+                                fprintf(out,
+                                    "Semantic Error: Division by zero detected at line %d\n",
+                                    line_no);
+                                error_count++;
+                                division_seen = 0;
+                            }
+
                         }
 
 
@@ -94,6 +105,10 @@ ghuro                   { fprintf(out, "FOR_KW at line %d\n", line_no); keyword_
 [+*/=<>;(){}-]          {
                             fprintf(out,"OPERATOR %s at line %d\n", yytext, line_no);
                             operator_count++;
+                            if (strcmp(yytext, "/") == 0) {
+                              division_seen = 1;
+                            }
+
                         }
 
 
