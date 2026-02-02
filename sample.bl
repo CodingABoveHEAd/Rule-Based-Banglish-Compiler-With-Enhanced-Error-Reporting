@@ -1,11 +1,29 @@
-purno a = 10;   // integer variable
-dosomik b = 3.14;
+// Sample Banglish Program for Lexical Analysis
 
-/*
-  multi-line
-  comment test
+purno x = 10;
+dosomik rate = 3.14;
+
+jodi (x >= 10 && rate != 0.0) {
+    dekhao x;
+}
+nahole {
+    dekhao rate;
+}
+
+/* Multi-line comment test
+   This comment spans multiple lines
 */
 
-jodi (a <= b && a != 0) {
-    dekhao(a);
+jotokhon (x > 0) {
+    x = x - 1;
 }
+
+/* Unterminated comment test
+   This should trigger a lexical error
+*/
+
+123abc          // Invalid identifier
+12.3.4          // Invalid numeric literal
+@               // Illegal symbol
+
+ferot x;
