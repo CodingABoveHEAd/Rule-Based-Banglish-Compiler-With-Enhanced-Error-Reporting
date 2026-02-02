@@ -50,6 +50,8 @@ nahole                  { fprintf(out,"ELSE_KW at line %d\n", line_no); keyword_
 jotokhon                { fprintf(out,"WHILE_KW at line %d\n", line_no); keyword_count++; }
 dekhao                  { fprintf(out,"PRINT_KW at line %d\n", line_no); keyword_count++; }
 ferot                   { fprintf(out,"RETURN_KW at line %d\n", line_no); keyword_count++; }
+ghuro                   { fprintf(out, "FOR_KW at line %d\n", line_no); keyword_count++;}
+   
 
 
 "<="|">="|"=="|"!="|"&&"|"||"   {

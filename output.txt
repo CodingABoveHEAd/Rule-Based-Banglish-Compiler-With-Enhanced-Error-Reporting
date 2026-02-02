@@ -43,16 +43,38 @@ OPERATOR - at line 18
 INT_LITERAL 1 at line 18
 OPERATOR ; at line 18
 OPERATOR } at line 19
-Lexical Error: Invalid identifier '123abc' at line 25
-Lexical Error: Invalid numeric constant '12.3.4' at line 26
-Lexical Error: Illegal symbol '@' at line 27
-RETURN_KW at line 29
-ID x at line 29
-OPERATOR ; at line 29
+FOR_KW at line 21
+OPERATOR ( at line 21
+INT_KW at line 21
+ID i at line 21
+OPERATOR = at line 21
+INT_LITERAL 0 at line 21
+OPERATOR ; at line 21
+ID i at line 21
+OPERATOR < at line 21
+INT_LITERAL 5 at line 21
+OPERATOR ; at line 21
+ID i at line 21
+OPERATOR = at line 21
+ID i at line 21
+OPERATOR + at line 21
+INT_LITERAL 1 at line 21
+OPERATOR ) at line 21
+OPERATOR { at line 21
+PRINT_KW at line 22
+ID i at line 22
+OPERATOR ; at line 22
+OPERATOR } at line 23
+Lexical Error: Invalid identifier '123abc' at line 30
+Lexical Error: Invalid numeric constant '12.3.4' at line 31
+Lexical Error: Illegal symbol '@' at line 32
+RETURN_KW at line 34
+ID x at line 34
+OPERATOR ; at line 34
 
 ===== LEXICAL ANALYSIS SUMMARY =====
-Keywords    : 8
-Identifiers : 10
-Literals    : 6
-Operators   : 24
+Keywords    : 11
+Identifiers : 15
+Literals    : 9
+Operators   : 35
 Errors      : 3

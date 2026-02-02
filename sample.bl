@@ -18,6 +18,11 @@ jotokhon (x > 0) {
     x = x - 1;
 }
 
+ghuro (purno i = 0; i < 5; i = i + 1) {
+    dekhao i;
+}
+
+
 /* Unterminated comment test
    This should trigger a lexical error
 */
