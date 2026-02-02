@@ -495,7 +495,8 @@ char *yytext;
 #line 2 "lexer.l"
 #include <stdio.h>
 
-extern FILE *yyin;
+ FILE *yyin,*out;
+
 
 int line_no = 1;
 
@@ -506,9 +507,9 @@ int operator_count = 0;
 int error_count = 0;
 
 int comment_start_line = 0;
-#line 509 "lex.yy.c"
+#line 510 "lex.yy.c"
 
-#line 511 "lex.yy.c"
+#line 512 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -726,10 +727,10 @@ YY_DECL
 		}
 
 	{
-#line 21 "lexer.l"
+#line 22 "lexer.l"
 
 
-#line 732 "lex.yy.c"
+#line 733 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -788,46 +789,46 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 23 "lexer.l"
+#line 24 "lexer.l"
 ;
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 24 "lexer.l"
+#line 25 "lexer.l"
 { line_no++; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 27 "lexer.l"
+#line 28 "lexer.l"
 ;
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 30 "lexer.l"
+#line 31 "lexer.l"
 { comment_start_line = line_no; BEGIN(COMMENT); }
 	YY_BREAK
 
 case 5:
 YY_RULE_SETUP
-#line 33 "lexer.l"
+#line 34 "lexer.l"
 { BEGIN(INITIAL); }
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 34 "lexer.l"
+#line 35 "lexer.l"
 { line_no++; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 35 "lexer.l"
+#line 36 "lexer.l"
 ;
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
-#line 36 "lexer.l"
+#line 37 "lexer.l"
 {
-                            printf("Lexical Error: Unterminated multi-line comment starting at line %d\n",
+                            fprintf(out,"Lexical Error: Unterminated multi-line comment starting at line %d\n",
                                    comment_start_line);
                             error_count++;
                             BEGIN(INITIAL);
@@ -836,112 +837,112 @@ case YY_STATE_EOF(COMMENT):
 
 case 8:
 YY_RULE_SETUP
-#line 45 "lexer.l"
-{ printf("INT_KW at line %d\n", line_no); keyword_count++; }
+#line 46 "lexer.l"
+{ fprintf(out,"INT_KW at line %d\n", line_no); keyword_count++; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 46 "lexer.l"
-{ printf("FLOAT_KW at line %d\n", line_no); keyword_count++; }
+#line 47 "lexer.l"
+{ fprintf(out,"FLOAT_KW at line %d\n", line_no); keyword_count++; }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 47 "lexer.l"
-{ printf("IF_KW at line %d\n", line_no); keyword_count++; }
+#line 48 "lexer.l"
+{ fprintf(out,"IF_KW at line %d\n", line_no); keyword_count++; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 48 "lexer.l"
-{ printf("ELSE_KW at line %d\n", line_no); keyword_count++; }
+#line 49 "lexer.l"
+{ fprintf(out,"ELSE_KW at line %d\n", line_no); keyword_count++; }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 49 "lexer.l"
-{ printf("WHILE_KW at line %d\n", line_no); keyword_count++; }
+#line 50 "lexer.l"
+{ fprintf(out,"WHILE_KW at line %d\n", line_no); keyword_count++; }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 50 "lexer.l"
-{ printf("PRINT_KW at line %d\n", line_no); keyword_count++; }
+#line 51 "lexer.l"
+{ fprintf(out,"PRINT_KW at line %d\n", line_no); keyword_count++; }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 51 "lexer.l"
-{ printf("RETURN_KW at line %d\n", line_no); keyword_count++; }
+#line 52 "lexer.l"
+{ fprintf(out,"RETURN_KW at line %d\n", line_no); keyword_count++; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 54 "lexer.l"
+#line 55 "lexer.l"
 {
-                            printf("OPERATOR %s at line %d\n", yytext, line_no);
+                            fprintf(out,"OPERATOR %s at line %d\n", yytext, line_no);
                             operator_count++;
                         }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 60 "lexer.l"
+#line 61 "lexer.l"
 {
-                            printf("Lexical Error: Invalid identifier '%s' at line %d\n",
+                            fprintf(out,"Lexical Error: Invalid identifier '%s' at line %d\n",
                                    yytext, line_no);
                             error_count++;
                         }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 67 "lexer.l"
+#line 68 "lexer.l"
 {
-                            printf("Lexical Error: Invalid numeric constant '%s' at line %d\n",
+                            fprintf(out,"Lexical Error: Invalid numeric constant '%s' at line %d\n",
                                    yytext, line_no);
                             error_count++;
                         }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 74 "lexer.l"
+#line 75 "lexer.l"
 {
-                            printf("FLOAT_LITERAL %s at line %d\n", yytext, line_no);
+                            fprintf(out,"FLOAT_LITERAL %s at line %d\n", yytext, line_no);
                             literal_count++;
                         }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 79 "lexer.l"
+#line 80 "lexer.l"
 {
-                            printf("INT_LITERAL %s at line %d\n", yytext, line_no);
+                            fprintf(out,"INT_LITERAL %s at line %d\n", yytext, line_no);
                             literal_count++;
                         }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 85 "lexer.l"
+#line 86 "lexer.l"
 {
-                            printf("ID %s at line %d\n", yytext, line_no);
+                            fprintf(out,"ID %s at line %d\n", yytext, line_no);
                             id_count++;
                         }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 91 "lexer.l"
+#line 92 "lexer.l"
 {
-                            printf("OPERATOR %s at line %d\n", yytext, line_no);
+                            fprintf(out,"OPERATOR %s at line %d\n", yytext, line_no);
                             operator_count++;
                         }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 97 "lexer.l"
+#line 98 "lexer.l"
 {
-                            printf("Lexical Error: Illegal symbol '%s' at line %d\n",
+                            fprintf(out,"Lexical Error: Illegal symbol '%s' at line %d\n",
                                    yytext, line_no);
                             error_count++;
                         }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 102 "lexer.l"
+#line 103 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 944 "lex.yy.c"
+#line 945 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1946,7 +1947,8 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 102 "lexer.l"
+#line 103 "lexer.l"
+
 
 
 int main(int argc, char **argv) {
@@ -1961,16 +1963,23 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+     out = fopen("output.txt", "w");
+    if (!out) {
+        perror("Output file open error");
+        return 1;
+    }
+
     yylex();
+    
+
+    fprintf(out,"\n===== LEXICAL ANALYSIS SUMMARY =====\n");
+    fprintf(out,"Keywords    : %d\n", keyword_count);
+    fprintf(out,"Identifiers : %d\n", id_count);
+    fprintf(out,"Literals    : %d\n", literal_count);
+    fprintf(out,"Operators   : %d\n", operator_count);
+    fprintf(out,"Errors      : %d\n", error_count);
     fclose(yyin);
-
-    printf("\n===== LEXICAL ANALYSIS SUMMARY =====\n");
-    printf("Keywords    : %d\n", keyword_count);
-    printf("Identifiers : %d\n", id_count);
-    printf("Literals    : %d\n", literal_count);
-    printf("Operators   : %d\n", operator_count);
-    printf("Errors      : %d\n", error_count);
-
+    fclose(out);
     return 0;
 }
 

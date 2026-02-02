@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
 
-extern FILE *yyin;
+ FILE *yyin,*out;
 
 
 int line_no = 1;
@@ -35,7 +35,7 @@ int comment_start_line = 0;
     \n                  { line_no++; }
     .                   ;
     <<EOF>>             {
-                            printf("Lexical Error: Unterminated multi-line comment starting at line %d\n",
+                            fprintf(out,"Lexical Error: Unterminated multi-line comment starting at line %d\n",
                                    comment_start_line);
                             error_count++;
                             BEGIN(INITIAL);
@@ -43,64 +43,65 @@ int comment_start_line = 0;
 }
 
 
-purno                   { printf("INT_KW at line %d\n", line_no); keyword_count++; }
-dosomik                 { printf("FLOAT_KW at line %d\n", line_no); keyword_count++; }
-jodi                    { printf("IF_KW at line %d\n", line_no); keyword_count++; }
-nahole                  { printf("ELSE_KW at line %d\n", line_no); keyword_count++; }
-jotokhon                { printf("WHILE_KW at line %d\n", line_no); keyword_count++; }
-dekhao                  { printf("PRINT_KW at line %d\n", line_no); keyword_count++; }
-ferot                   { printf("RETURN_KW at line %d\n", line_no); keyword_count++; }
+purno                   { fprintf(out,"INT_KW at line %d\n", line_no); keyword_count++; }
+dosomik                 { fprintf(out,"FLOAT_KW at line %d\n", line_no); keyword_count++; }
+jodi                    { fprintf(out,"IF_KW at line %d\n", line_no); keyword_count++; }
+nahole                  { fprintf(out,"ELSE_KW at line %d\n", line_no); keyword_count++; }
+jotokhon                { fprintf(out,"WHILE_KW at line %d\n", line_no); keyword_count++; }
+dekhao                  { fprintf(out,"PRINT_KW at line %d\n", line_no); keyword_count++; }
+ferot                   { fprintf(out,"RETURN_KW at line %d\n", line_no); keyword_count++; }
 
 
 "<="|">="|"=="|"!="|"&&"|"||"   {
-                            printf("OPERATOR %s at line %d\n", yytext, line_no);
+                            fprintf(out,"OPERATOR %s at line %d\n", yytext, line_no);
                             operator_count++;
                         }
 
 
 [0-9]+[a-zA-Z_][a-zA-Z0-9_]* {
-                            printf("Lexical Error: Invalid identifier '%s' at line %d\n",
+                            fprintf(out,"Lexical Error: Invalid identifier '%s' at line %d\n",
                                    yytext, line_no);
                             error_count++;
                         }
 
 
 [0-9]+\.[0-9]+\.[0-9]+ {
-                            printf("Lexical Error: Invalid numeric constant '%s' at line %d\n",
+                            fprintf(out,"Lexical Error: Invalid numeric constant '%s' at line %d\n",
                                    yytext, line_no);
                             error_count++;
                         }
 
 
 [0-9]+\.[0-9]+          {
-                            printf("FLOAT_LITERAL %s at line %d\n", yytext, line_no);
+                            fprintf(out,"FLOAT_LITERAL %s at line %d\n", yytext, line_no);
                             literal_count++;
                         }
 
 [0-9]+                  {
-                            printf("INT_LITERAL %s at line %d\n", yytext, line_no);
+                            fprintf(out,"INT_LITERAL %s at line %d\n", yytext, line_no);
                             literal_count++;
                         }
 
 
 [a-zA-Z_][a-zA-Z0-9_]*  {
-                            printf("ID %s at line %d\n", yytext, line_no);
+                            fprintf(out,"ID %s at line %d\n", yytext, line_no);
                             id_count++;
                         }
 
 
 [+*/=<>;(){}-]          {
-                            printf("OPERATOR %s at line %d\n", yytext, line_no);
+                            fprintf(out,"OPERATOR %s at line %d\n", yytext, line_no);
                             operator_count++;
                         }
 
 
 .                       {
-                            printf("Lexical Error: Illegal symbol '%s' at line %d\n",
+                            fprintf(out,"Lexical Error: Illegal symbol '%s' at line %d\n",
                                    yytext, line_no);
                             error_count++;
                         }
 %%
+
 
 int main(int argc, char **argv) {
     if (argc != 2) {
@@ -114,15 +115,22 @@ int main(int argc, char **argv) {
         return 1;
     }
 
+     out = fopen("output.txt", "w");
+    if (!out) {
+        perror("Output file open error");
+        return 1;
+    }
+
     yylex();
+    
+
+    fprintf(out,"\n===== LEXICAL ANALYSIS SUMMARY =====\n");
+    fprintf(out,"Keywords    : %d\n", keyword_count);
+    fprintf(out,"Identifiers : %d\n", id_count);
+    fprintf(out,"Literals    : %d\n", literal_count);
+    fprintf(out,"Operators   : %d\n", operator_count);
+    fprintf(out,"Errors      : %d\n", error_count);
     fclose(yyin);
-
-    printf("\n===== LEXICAL ANALYSIS SUMMARY =====\n");
-    printf("Keywords    : %d\n", keyword_count);
-    printf("Identifiers : %d\n", id_count);
-    printf("Literals    : %d\n", literal_count);
-    printf("Operators   : %d\n", operator_count);
-    printf("Errors      : %d\n", error_count);
-
+    fclose(out);
     return 0;
 }
