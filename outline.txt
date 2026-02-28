@@ -289,3 +289,12 @@ Muchnick, S. S. Advanced Compiler Design and Implementation. Morgan Kaufmann.
 •••
 Go to
 Page
+
+
+
+test command:
+
+unalias flex bison
+flex lexer.l
+gcc lex.yy.c -o lexer
+./lexer sample.bl > output.txt

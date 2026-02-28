@@ -1,168 +1,170 @@
-INT_KW at line 3
-ID a at line 3
-OPERATOR = at line 3
-INT_LITERAL 10 at line 3
-DELIMITER ; at line 3
-FLOAT_KW at line 4
-ID b at line 4
-OPERATOR = at line 4
-FLOAT_LITERAL 0.5 at line 4
-DELIMITER ; at line 4
-BOOL_KW at line 5
-ID flag at line 5
-OPERATOR = at line 5
-TRUE_KW at line 5
-DELIMITER ; at line 5
-BOOL_KW at line 6
-ID done at line 6
-OPERATOR = at line 6
-FALSE_KW at line 6
-DELIMITER ; at line 6
-IF_KW at line 9
-DELIMITER ( at line 9
-ID a at line 9
-OPERATOR > at line 9
-INT_LITERAL 0 at line 9
-OPERATOR && at line 9
-ID flag at line 9
-OPERATOR == at line 9
-TRUE_KW at line 9
-DELIMITER ) at line 9
-DELIMITER { at line 9
-PRINT_KW at line 10
-STRING_LITERAL "jodi block" at line 10
-DELIMITER ; at line 10
-DELIMITER } at line 11
-ELSE_KW at line 11
-DELIMITER { at line 11
-PRINT_KW at line 12
-STRING_LITERAL "nahole block" at line 12
-DELIMITER ; at line 12
-DELIMITER } at line 13
-WHILE_KW at line 15
-DELIMITER ( at line 15
-ID a at line 15
-OPERATOR > at line 15
-INT_LITERAL 0 at line 15
-DELIMITER ) at line 15
-DELIMITER { at line 15
-ID a at line 16
-OPERATOR = at line 16
-ID a at line 16
-OPERATOR - at line 16
-INT_LITERAL 1 at line 16
-DELIMITER ; at line 16
-CONTINUE_KW at line 17
-DELIMITER ; at line 17
-DELIMITER } at line 18
-FOR_KW at line 20
-DELIMITER ( at line 20
-INT_KW at line 20
-ID i at line 20
-OPERATOR = at line 20
-INT_LITERAL 0 at line 20
-DELIMITER ; at line 20
-ID i at line 20
-OPERATOR < at line 20
-INT_LITERAL 3 at line 20
-DELIMITER ; at line 20
-ID i at line 20
-OPERATOR ++ at line 20
-DELIMITER ) at line 20
-DELIMITER { at line 20
-PRINT_KW at line 21
-ID i at line 21
-DELIMITER ; at line 21
-BREAK_KW at line 22
-DELIMITER ; at line 22
-DELIMITER } at line 23
-SWITCH_KW at line 26
-DELIMITER ( at line 26
-ID a at line 26
-DELIMITER ) at line 26
-DELIMITER { at line 26
-CASE_KW at line 27
-INT_LITERAL 1 at line 27
-DELIMITER : at line 27
-PRINT_KW at line 28
-STRING_LITERAL "one" at line 28
-DELIMITER ; at line 28
-BREAK_KW at line 29
-DELIMITER ; at line 29
-DEFAULT_KW at line 30
-DELIMITER : at line 30
-PRINT_KW at line 31
-STRING_LITERAL "other" at line 31
-DELIMITER ; at line 31
-DELIMITER } at line 32
-DO_KW at line 34
-DELIMITER { at line 34
-ID a at line 35
-OPERATOR = at line 35
-ID a at line 35
-OPERATOR - at line 35
-INT_LITERAL 1 at line 35
-DELIMITER ; at line 35
-DELIMITER } at line 36
-WHILE_KW at line 36
-DELIMITER ( at line 36
-ID a at line 36
-OPERATOR > at line 36
-INT_LITERAL 2 at line 36
-DELIMITER ) at line 36
-DELIMITER ; at line 36
-CONST_KW at line 38
-INT_KW at line 38
-ID n at line 38
-OPERATOR = at line 38
-INT_LITERAL 5 at line 38
-DELIMITER ; at line 38
-VOID_KW at line 39
-FUNC_KW at line 39
-ID myFunc at line 39
-DELIMITER ( at line 39
-DELIMITER ) at line 39
-DELIMITER { at line 39
-RETURN_KW at line 40
-DELIMITER ; at line 40
-DELIMITER } at line 41
-INPUT_KW at line 43
-ID a at line 43
-DELIMITER ; at line 43
-INT_KW at line 46
-ID code at line 46
-OPERATOR = at line 46
-CHAR_LITERAL 'A' at line 46
-DELIMITER ; at line 46
-PRINT_KW at line 47
-STRING_LITERAL "Hello Banglish Lexer" at line 47
-DELIMITER ; at line 47
-ID a at line 50
-OPERATOR += at line 50
-INT_LITERAL 2 at line 50
-DELIMITER ; at line 50
-ID a at line 51
-OPERATOR -= at line 51
-INT_LITERAL 1 at line 51
-DELIMITER ; at line 51
-ID a at line 52
-OPERATOR *= at line 52
-INT_LITERAL 3 at line 52
-DELIMITER ; at line 52
-ID a at line 53
-OPERATOR /= at line 53
-INT_LITERAL 2 at line 53
-DELIMITER ; at line 53
-ID a at line 54
-OPERATOR ++ at line 54
-DELIMITER ; at line 54
-ID a at line 55
-OPERATOR -- at line 55
-DELIMITER ; at line 55
-Lexical Error: Invalid identifier '123abc' at line 60
-Lexical Error: Invalid numeric constant '12.3.4' at line 61
-Lexical Error: Unterminated string literal at line 62
-Lexical Error: Illegal symbol '@' at line 63
+TOKEN TYPE       | LEXEME                 | LOCATION
+---------------- | ---------------------- | --------
+INT_KW           | purno                  | line 3
+IDENTIFIER       | a                      | line 3
+OPERATOR         | =                      | line 3
+INT_LIT          | 10                     | line 3
+DELIMITER        | ;                      | line 3
+FLOAT_KW         | dosomik                | line 4
+IDENTIFIER       | b                      | line 4
+OPERATOR         | =                      | line 4
+FLOAT_LIT        | 0.5                    | line 4
+DELIMITER        | ;                      | line 4
+BOOL_KW          | torkik                 | line 5
+IDENTIFIER       | flag                   | line 5
+OPERATOR         | =                      | line 5
+TRUE_KW          | shotti                 | line 5
+DELIMITER        | ;                      | line 5
+BOOL_KW          | torkik                 | line 6
+IDENTIFIER       | done                   | line 6
+OPERATOR         | =                      | line 6
+FALSE_KW         | mithya                 | line 6
+DELIMITER        | ;                      | line 6
+IF_KW            | jodi                   | line 9
+DELIMITER        | (                      | line 9
+IDENTIFIER       | a                      | line 9
+OPERATOR         | >                      | line 9
+INT_LIT          | 0                      | line 9
+AND_OP           | &&                     | line 9
+IDENTIFIER       | flag                   | line 9
+EQ_OP            | ==                     | line 9
+TRUE_KW          | shotti                 | line 9
+DELIMITER        | )                      | line 9
+DELIMITER        | {                      | line 9
+PRINT_KW         | dekhao                 | line 10
+STRING_LIT       | "jodi block"           | line 10
+DELIMITER        | ;                      | line 10
+DELIMITER        | }                      | line 11
+ELSE_KW          | nahole                 | line 11
+DELIMITER        | {                      | line 11
+PRINT_KW         | dekhao                 | line 12
+STRING_LIT       | "nahole block"         | line 12
+DELIMITER        | ;                      | line 12
+DELIMITER        | }                      | line 13
+WHILE_KW         | jotokhon               | line 15
+DELIMITER        | (                      | line 15
+IDENTIFIER       | a                      | line 15
+OPERATOR         | >                      | line 15
+INT_LIT          | 0                      | line 15
+DELIMITER        | )                      | line 15
+DELIMITER        | {                      | line 15
+IDENTIFIER       | a                      | line 16
+OPERATOR         | =                      | line 16
+IDENTIFIER       | a                      | line 16
+OPERATOR         | -                      | line 16
+INT_LIT          | 1                      | line 16
+DELIMITER        | ;                      | line 16
+CONTINUE_KW      | chaliejao              | line 17
+DELIMITER        | ;                      | line 17
+DELIMITER        | }                      | line 18
+FOR_KW           | ghuro                  | line 20
+DELIMITER        | (                      | line 20
+INT_KW           | purno                  | line 20
+IDENTIFIER       | i                      | line 20
+OPERATOR         | =                      | line 20
+INT_LIT          | 0                      | line 20
+DELIMITER        | ;                      | line 20
+IDENTIFIER       | i                      | line 20
+OPERATOR         | <                      | line 20
+INT_LIT          | 3                      | line 20
+DELIMITER        | ;                      | line 20
+IDENTIFIER       | i                      | line 20
+INC_OP           | ++                     | line 20
+DELIMITER        | )                      | line 20
+DELIMITER        | {                      | line 20
+PRINT_KW         | dekhao                 | line 21
+IDENTIFIER       | i                      | line 21
+DELIMITER        | ;                      | line 21
+BREAK_KW         | tham                   | line 22
+DELIMITER        | ;                      | line 22
+DELIMITER        | }                      | line 23
+SWITCH_KW        | bachai                 | line 26
+DELIMITER        | (                      | line 26
+IDENTIFIER       | a                      | line 26
+DELIMITER        | )                      | line 26
+DELIMITER        | {                      | line 26
+CASE_KW          | khetre                 | line 27
+INT_LIT          | 1                      | line 27
+DELIMITER        | :                      | line 27
+PRINT_KW         | dekhao                 | line 28
+STRING_LIT       | "one"                  | line 28
+DELIMITER        | ;                      | line 28
+BREAK_KW         | tham                   | line 29
+DELIMITER        | ;                      | line 29
+DEFAULT_KW       | onnothay               | line 30
+DELIMITER        | :                      | line 30
+PRINT_KW         | dekhao                 | line 31
+STRING_LIT       | "other"                | line 31
+DELIMITER        | ;                      | line 31
+DELIMITER        | }                      | line 32
+DO_KW            | koro                   | line 34
+DELIMITER        | {                      | line 34
+IDENTIFIER       | a                      | line 35
+OPERATOR         | =                      | line 35
+IDENTIFIER       | a                      | line 35
+OPERATOR         | -                      | line 35
+INT_LIT          | 1                      | line 35
+DELIMITER        | ;                      | line 35
+DELIMITER        | }                      | line 36
+WHILE_KW         | jotokhon               | line 36
+DELIMITER        | (                      | line 36
+IDENTIFIER       | a                      | line 36
+OPERATOR         | >                      | line 36
+INT_LIT          | 2                      | line 36
+DELIMITER        | )                      | line 36
+DELIMITER        | ;                      | line 36
+CONST_KW         | dhrubo                 | line 38
+INT_KW           | purno                  | line 38
+IDENTIFIER       | n                      | line 38
+OPERATOR         | =                      | line 38
+INT_LIT          | 5                      | line 38
+DELIMITER        | ;                      | line 38
+VOID_KW          | shunno                 | line 39
+FUNC_KW          | kaj                    | line 39
+IDENTIFIER       | myFunc                 | line 39
+DELIMITER        | (                      | line 39
+DELIMITER        | )                      | line 39
+DELIMITER        | {                      | line 39
+RETURN_KW        | ferot                  | line 40
+DELIMITER        | ;                      | line 40
+DELIMITER        | }                      | line 41
+INPUT_KW         | neo                    | line 43
+IDENTIFIER       | a                      | line 43
+DELIMITER        | ;                      | line 43
+INT_KW           | purno                  | line 46
+IDENTIFIER       | code                   | line 46
+OPERATOR         | =                      | line 46
+CHAR_LIT         | 'A'                    | line 46
+DELIMITER        | ;                      | line 46
+PRINT_KW         | dekhao                 | line 47
+STRING_LIT       | "Hello Banglish Lexer" | line 47
+DELIMITER        | ;                      | line 47
+IDENTIFIER       | a                      | line 50
+ADD_ASSIGN       | +=                     | line 50
+INT_LIT          | 2                      | line 50
+DELIMITER        | ;                      | line 50
+IDENTIFIER       | a                      | line 51
+SUB_ASSIGN       | -=                     | line 51
+INT_LIT          | 1                      | line 51
+DELIMITER        | ;                      | line 51
+IDENTIFIER       | a                      | line 52
+MUL_ASSIGN       | *=                     | line 52
+INT_LIT          | 3                      | line 52
+DELIMITER        | ;                      | line 52
+IDENTIFIER       | a                      | line 53
+DIV_ASSIGN       | /=                     | line 53
+INT_LIT          | 2                      | line 53
+DELIMITER        | ;                      | line 53
+IDENTIFIER       | a                      | line 54
+INC_OP           | ++                     | line 54
+DELIMITER        | ;                      | line 54
+IDENTIFIER       | a                      | line 55
+DEC_OP           | --                     | line 55
+DELIMITER        | ;                      | line 55
+LEXICAL ERROR     | Invalid identifier '123abc  | line 60
+LEXICAL ERROR     | Invalid number '12.3.4     | line 61
+LEXICAL ERROR     | Unterminated string         | line 62
+LEXICAL ERROR     | Illegal symbol '@       | line 63
 
 ===== LEXICAL ANALYSIS SUMMARY =====
 Keywords    : 33

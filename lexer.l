@@ -1,25 +1,97 @@
 %{
+/*
+ * Banglish Compiler — Lexer (Flex)
+ * Bison-compatible: every rule returns a token code and sets yylval.
+ * Standalone test: main() loops yylex() and logs to output.txt.
+ * When adding parser.y, remove main() and #include "parser.tab.h"
+ * instead of the manual defines below.
+ */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
- FILE *yyin,*out;
+/* ── Token codes (mirror %token in parser.y when you add it) ── */
 
+/* Data-type keywords */
+#define INT_KW      1
+#define FLOAT_KW    2
+#define BOOL_KW     3
+#define VOID_KW     4
+#define CONST_KW    5
 
-int line_no = 1;
+/* Boolean literal keywords */
+#define TRUE_KW     6
+#define FALSE_KW    7
 
-int keyword_count = 0;
-int id_count = 0;
-int literal_count = 0;
+/* Control-flow keywords */
+#define IF_KW       10
+#define ELSE_KW     11
+#define WHILE_KW    12
+#define FOR_KW      13
+#define DO_KW       14
+#define SWITCH_KW   15
+#define CASE_KW     16
+#define DEFAULT_KW  17
+#define BREAK_KW    18
+#define CONTINUE_KW 19
+
+/* Function / IO keywords */
+#define RETURN_KW   20
+#define PRINT_KW    21
+#define INPUT_KW    22
+#define FUNC_KW     23
+
+/* Literals */
+#define INT_LIT     30
+#define FLOAT_LIT   31
+#define STRING_LIT  32
+#define CHAR_LIT    33
+
+/* Identifier */
+#define IDENTIFIER  40
+/* Multi-char operators */
+#define LE_OP       50
+#define GE_OP       51
+#define EQ_OP       52
+#define NE_OP       53
+#define AND_OP      54
+#define OR_OP       55
+#define INC_OP      56
+#define DEC_OP      57
+#define ADD_ASSIGN  58
+#define SUB_ASSIGN  59
+#define MUL_ASSIGN  60
+#define DIV_ASSIGN  61
+/* Single-char operators and delimiters are returned as their ASCII value */
+
+/* ── Semantic value union (Bison replaces this with its YYSTYPE) ── */
+typedef union {
+    int    ival;       /* INT_LIT, TRUE_KW, FALSE_KW   */
+    double fval;       /* FLOAT_LIT                    */
+    char   sval[256];  /* IDENTIFIER, STRING_LIT, CHAR_LIT */
+} YYSTYPE;
+
+YYSTYPE yylval;
+
+/* ── Bookkeeping ── */
+FILE *yyin, *out;
+int line_no        = 1;
+int keyword_count  = 0;
+int id_count       = 0;
+int literal_count  = 0;
 int operator_count = 0;
-int delimiter_count = 0;
-int comment_count = 0;
-int warning_count = 0;
-int error_count = 0;
-int division_seen = 0;
-
-
+int delimiter_count= 0;
+int comment_count  = 0;
+int warning_count  = 0;
+int error_count    = 0;
+int division_seen  = 0;
 int comment_start_line = 0;
+
+/* Log token to output.txt and return its code */
+static int emit(int code, const char *label) {
+    fprintf(out, "%-16s | %-22s | line %d\n", label, yytext, line_no);
+    return code;
+}
 %}
 
 %x COMMENT
@@ -50,179 +122,170 @@ int comment_start_line = 0;
 }
 
 
-purno                   { fprintf(out,"INT_KW at line %d\n", line_no); keyword_count++; }
-dosomik                 { fprintf(out,"FLOAT_KW at line %d\n", line_no); keyword_count++; }
-jodi                    { fprintf(out,"IF_KW at line %d\n", line_no); keyword_count++; }
-nahole                  { fprintf(out,"ELSE_KW at line %d\n", line_no); keyword_count++; }
-jotokhon                { fprintf(out,"WHILE_KW at line %d\n", line_no); keyword_count++; }
-dekhao                  { fprintf(out,"PRINT_KW at line %d\n", line_no); keyword_count++; }
-ferot                   { fprintf(out,"RETURN_KW at line %d\n", line_no); keyword_count++; }
-ghuro                   { fprintf(out, "FOR_KW at line %d\n", line_no); keyword_count++;}
-
-shotti                  { fprintf(out,"TRUE_KW at line %d\n", line_no); keyword_count++; }
-mithya                  { fprintf(out,"FALSE_KW at line %d\n", line_no); keyword_count++; }
-torkik                  { fprintf(out,"BOOL_KW at line %d\n", line_no); keyword_count++; }
-shunno                  { fprintf(out,"VOID_KW at line %d\n", line_no); keyword_count++; }
-kaj                     { fprintf(out,"FUNC_KW at line %d\n", line_no); keyword_count++; }
-tham                    { fprintf(out,"BREAK_KW at line %d\n", line_no); keyword_count++; }
-chaliejao               { fprintf(out,"CONTINUE_KW at line %d\n", line_no); keyword_count++; }
-bachai                  { fprintf(out,"SWITCH_KW at line %d\n", line_no); keyword_count++; }
-khetre                  { fprintf(out,"CASE_KW at line %d\n", line_no); keyword_count++; }
-onnothay                { fprintf(out,"DEFAULT_KW at line %d\n", line_no); keyword_count++; }
-koro                    { fprintf(out,"DO_KW at line %d\n", line_no); keyword_count++; }
-dhrubo                  { fprintf(out,"CONST_KW at line %d\n", line_no); keyword_count++; }
-neo                     { fprintf(out,"INPUT_KW at line %d\n", line_no); keyword_count++; }
+purno       { keyword_count++; return emit(INT_KW,      "INT_KW");     }
+dosomik     { keyword_count++; return emit(FLOAT_KW,    "FLOAT_KW");   }
+torkik      { keyword_count++; return emit(BOOL_KW,     "BOOL_KW");    }
+shunno      { keyword_count++; return emit(VOID_KW,     "VOID_KW");    }
+dhrubo      { keyword_count++; return emit(CONST_KW,    "CONST_KW");   }
+shotti      { keyword_count++; yylval.ival = 1; return emit(TRUE_KW,   "TRUE_KW");  }
+mithya      { keyword_count++; yylval.ival = 0; return emit(FALSE_KW,  "FALSE_KW"); }
+jodi        { keyword_count++; return emit(IF_KW,       "IF_KW");      }
+nahole      { keyword_count++; return emit(ELSE_KW,     "ELSE_KW");    }
+jotokhon    { keyword_count++; return emit(WHILE_KW,    "WHILE_KW");   }
+ghuro       { keyword_count++; return emit(FOR_KW,      "FOR_KW");     }
+koro        { keyword_count++; return emit(DO_KW,       "DO_KW");      }
+bachai      { keyword_count++; return emit(SWITCH_KW,   "SWITCH_KW");  }
+khetre      { keyword_count++; return emit(CASE_KW,     "CASE_KW");    }
+onnothay    { keyword_count++; return emit(DEFAULT_KW,  "DEFAULT_KW"); }
+tham        { keyword_count++; return emit(BREAK_KW,    "BREAK_KW");   }
+chaliejao   { keyword_count++; return emit(CONTINUE_KW, "CONTINUE_KW");}
+ferot       { keyword_count++; return emit(RETURN_KW,   "RETURN_KW");  }
+dekhao      { keyword_count++; return emit(PRINT_KW,    "PRINT_KW");   }
+neo         { keyword_count++; return emit(INPUT_KW,    "INPUT_KW");   }
+kaj         { keyword_count++; return emit(FUNC_KW,     "FUNC_KW");    }
    
 
 
-"<="|">="|"=="|"!="|"&&"|"||"   {
-                            fprintf(out,"OPERATOR %s at line %d\n", yytext, line_no);
-                            operator_count++;
-                            division_seen = 0;
-                        }
-
-
-"++"|"--"|"+="|"-="|"*="|"/="      {
-                            fprintf(out,"OPERATOR %s at line %d\n", yytext, line_no);
-                            operator_count++;
-                            division_seen = 0;
-                        }
+"<="   { operator_count++; division_seen=0; return emit(LE_OP,     "LE_OP");     }
+">="   { operator_count++; division_seen=0; return emit(GE_OP,     "GE_OP");     }
+"=="   { operator_count++; division_seen=0; return emit(EQ_OP,     "EQ_OP");     }
+"!="   { operator_count++; division_seen=0; return emit(NE_OP,     "NE_OP");     }
+"&&"   { operator_count++; division_seen=0; return emit(AND_OP,    "AND_OP");    }
+"||"   { operator_count++; division_seen=0; return emit(OR_OP,     "OR_OP");     }
+"++"   { operator_count++; division_seen=0; return emit(INC_OP,    "INC_OP");    }
+"--"   { operator_count++; division_seen=0; return emit(DEC_OP,    "DEC_OP");    }
+"+="   { operator_count++; division_seen=0; return emit(ADD_ASSIGN, "ADD_ASSIGN"); }
+"-="   { operator_count++; division_seen=0; return emit(SUB_ASSIGN, "SUB_ASSIGN"); }
+"*="   { operator_count++; division_seen=0; return emit(MUL_ASSIGN, "MUL_ASSIGN"); }
+"/="   { operator_count++; division_seen=0; return emit(DIV_ASSIGN, "DIV_ASSIGN"); }
 
 
 [0-9]+[a-zA-Z_][a-zA-Z0-9_]* {
-                            fprintf(out,"Lexical Error: Invalid identifier '%s' at line %d\n",
-                                   yytext, line_no);
-                            error_count++;
-                        }
-
-
+    fprintf(out, "LEXICAL ERROR     | Invalid identifier '%-8s| line %d\n", yytext, line_no);
+    error_count++;
+}
 [0-9]+\.[0-9]+\.[0-9]+ {
-                            fprintf(out,"Lexical Error: Invalid numeric constant '%s' at line %d\n",
-                                   yytext, line_no);
-                            error_count++;
-                        }
+    fprintf(out, "LEXICAL ERROR     | Invalid number '%-11s| line %d\n", yytext, line_no);
+    error_count++;
+}
+[0-9]+\.[0-9]+ {
+    literal_count++;
+    yylval.fval = strtod(yytext, NULL);
+    if (division_seen && yylval.fval == 0.0) {
+        fprintf(out, "SEMANTIC WARNING  | Division by zero            | line %d\n", line_no);
+        warning_count++;
+    }
+    division_seen = 0;
+    return emit(FLOAT_LIT, "FLOAT_LIT");
+}
+[0-9]+ {
+    literal_count++;
+    yylval.ival = atoi(yytext);
+    if (division_seen && yylval.ival == 0) {
+        fprintf(out, "SEMANTIC WARNING  | Division by zero            | line %d\n", line_no);
+        warning_count++;
+    }
+    division_seen = 0;
+    return emit(INT_LIT, "INT_LIT");
+}
+\"([^\\\n]|\\.)*\" {
+    literal_count++;
+    int len = (int)strlen(yytext) - 2;
+    if (len < 0) len = 0;
+    if (len > 255) len = 255;
+    strncpy(yylval.sval, yytext + 1, len);
+    yylval.sval[len] = '\0';
+    division_seen = 0;
+    return emit(STRING_LIT, "STRING_LIT");
+}
+'([^\\\n]|\\.)' {
+    literal_count++;
+    yylval.sval[0] = yytext[1];
+    yylval.sval[1] = '\0';
+    division_seen = 0;
+    return emit(CHAR_LIT, "CHAR_LIT");
+}
+\"[^\"\n]* {
+    fprintf(out, "LEXICAL ERROR     | Unterminated string         | line %d\n", line_no);
+    error_count++;
+    division_seen = 0;
+}
 
 
-[0-9]+\.[0-9]+          {
-                            fprintf(out,"FLOAT_LITERAL %s at line %d\n", yytext, line_no);
-                            literal_count++;
+[a-zA-Z_][a-zA-Z0-9_]* {
+    id_count++;
+    strncpy(yylval.sval, yytext, 255);
+    yylval.sval[255] = '\0';
+    if (strlen(yytext) > 31) {
+        fprintf(out, "WARNING           | Identifier too long         | line %d\n", line_no);
+        warning_count++;
+    }
+    division_seen = 0;
+    return emit(IDENTIFIER, "IDENTIFIER");
+}
+"/" {
+    operator_count++;
+    division_seen = 1;
+    fprintf(out, "%-16s | %-22s | line %d\n", "OPERATOR", yytext, line_no);
+    return '/';
+}
 
-                            if (division_seen && strtod(yytext, NULL) == 0.0) {
-                                fprintf(out,
-                                    "Semantic Error: Division by zero detected at line %d\n",
-                                    line_no);
-                                error_count++;
-                            }
-                            division_seen = 0;
-                        }
+[+\-*%=<>!] {
+    operator_count++;
+    division_seen = 0;
+    fprintf(out, "%-16s | %-22s | line %d\n", "OPERATOR", yytext, line_no);
+    return (int)yytext[0];
+}
 
-[0-9]+                  {
-                            fprintf(out,"INT_LITERAL %s at line %d\n", yytext, line_no);
-                            literal_count++;
-
-                            if (division_seen && strcmp(yytext, "0") == 0) {
-                                fprintf(out,
-                                    "Semantic Error: Division by zero detected at line %d\n",
-                                    line_no);
-                                error_count++;
-                            }
-                            division_seen = 0;
-
-                        }
-
-
-\"([^\\\n]|\\.)*\"      {
-                            fprintf(out,"STRING_LITERAL %s at line %d\n", yytext, line_no);
-                            literal_count++;
-                            division_seen = 0;
-                        }
-
-
-'([^\\\n]|\\.)'       {
-                            fprintf(out,"CHAR_LITERAL %s at line %d\n", yytext, line_no);
-                            literal_count++;
-                            division_seen = 0;
-                        }
-
-
-\"[^\"\n]*                 {
-                            fprintf(out,"Lexical Error: Unterminated string literal at line %d\n", line_no);
-                            error_count++;
-                            division_seen = 0;
-                        }
-
-
-[a-zA-Z_][a-zA-Z0-9_]*  {
-                            fprintf(out,"ID %s at line %d\n", yytext, line_no);
-                            id_count++;
-
-                            if (strlen(yytext) > 31) {
-                                fprintf(out,
-                                    "Warning: Identifier '%s' is too long at line %d\n",
-                                    yytext, line_no);
-                                warning_count++;
-                            }
-                            division_seen = 0;
-                        }
-
-
-[;:,(){}\[\]]           {
-                            fprintf(out,"DELIMITER %s at line %d\n", yytext, line_no);
-                            delimiter_count++;
-                            division_seen = 0;
-                        }
-
-
-[+\-*/%=<>!]            {
-                            fprintf(out,"OPERATOR %s at line %d\n", yytext, line_no);
-                            operator_count++;
-                            if (strcmp(yytext, "/") == 0) {
-                              division_seen = 1;
-                            } else {
-                              division_seen = 0;
-                            }
-
-                        }
-
-
-.                       {
-                            fprintf(out,"Lexical Error: Illegal symbol '%s' at line %d\n",
-                                   yytext, line_no);
-                            error_count++;
-                        }
+[;:,(){}\[\]] {
+    delimiter_count++;
+    division_seen = 0;
+    fprintf(out, "%-16s | %-22s | line %d\n", "DELIMITER", yytext, line_no);
+    return (int)yytext[0];
+}
+. {
+    fprintf(out, "LEXICAL ERROR     | Illegal symbol '%-8s| line %d\n", yytext, line_no);
+    error_count++;
+}
 %%
 
 
+/*
+ * Standalone test driver.
+ * Remove this entire main() when integrating with Bison —
+ * yyparse() in parser.y will call yylex() itself.
+ */
+
+ 
 int main(int argc, char **argv) {
     if (argc != 2) {
         printf("Usage: %s <source-file>\n", argv[0]);
         return 1;
     }
-
     yyin = fopen(argv[1], "r");
-    if (!yyin) {
-        perror("File open error");
-        return 1;
-    }
+    if (!yyin) { perror("Cannot open source file"); return 1; }
+    out  = fopen("output.txt", "w");
+    if (!out)  { perror("Cannot open output.txt");  return 1; }
 
-     out = fopen("output.txt", "w");
-    if (!out) {
-        perror("Output file open error");
-        return 1;
-    }
+    /* Table header */
+    fprintf(out, "%-16s | %-22s | %s\n",
+            "TOKEN TYPE", "LEXEME", "LOCATION");
+    fprintf(out, "%-16s | %-22s | %s\n",
+            "----------------", "----------------------", "--------");
 
-    yylex();
-    
+    /* Drive the lexer exactly as Bison's yyparse() will */
+    while (yylex() != 0) { /* yylval already set inside each rule */ }
 
-    fprintf(out,"\n===== LEXICAL ANALYSIS SUMMARY =====\n");
-    fprintf(out,"Keywords    : %d\n", keyword_count);
-    fprintf(out,"Identifiers : %d\n", id_count);
-    fprintf(out,"Literals    : %d\n", literal_count);
-    fprintf(out,"Operators   : %d\n", operator_count);
-    fprintf(out,"Delimiters  : %d\n", delimiter_count);
-    fprintf(out,"Comments    : %d\n", comment_count);
-    fprintf(out,"Warnings    : %d\n", warning_count);
-    fprintf(out,"Errors      : %d\n", error_count);
+    fprintf(out, "\n===== LEXICAL ANALYSIS SUMMARY =====\n");
+    fprintf(out, "Keywords    : %d\n", keyword_count);
+    fprintf(out, "Identifiers : %d\n", id_count);
+    fprintf(out, "Literals    : %d\n", literal_count);
+    fprintf(out, "Operators   : %d\n", operator_count);
+    fprintf(out, "Delimiters  : %d\n", delimiter_count);
+    fprintf(out, "Comments    : %d\n", comment_count);
+    fprintf(out, "Warnings    : %d\n", warning_count);
+    fprintf(out, "Errors      : %d\n", error_count);
+
     fclose(yyin);
     fclose(out);
     return 0;
