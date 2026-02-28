@@ -1,0 +1,67 @@
+// Banglish parser test: valid program (no errors)
+
+purno a = 10;
+dosomik b = 3.14;
+torkik flag = shotti;
+torkik done = mithya;
+dhrubo purno MAX = 100;
+
+// if-else
+jodi (a > 0 && flag == shotti) {
+    dekhao "jodi block";
+} nahole {
+    dekhao "nahole block";
+}
+
+// while loop
+jotokhon (a > 0) {
+    a = a - 1;
+}
+
+// for loop
+ghuro (purno i = 0; i < 3; i++) {
+    dekhao i;
+    tham;
+}
+
+// do-while
+koro {
+    a = a + 1;
+} jotokhon (a < 5);
+
+// switch-case
+bachai (a) {
+    khetre 1:
+        dekhao "one";
+        tham;
+    khetre 2:
+        dekhao "two";
+        tham;
+    onnothay:
+        dekhao "other";
+}
+
+// assignment operators
+a += 2;
+a -= 1;
+a *= 3;
+a /= 2;
+a++;
+a--;
+
+// function definition
+purno kaj add(purno x, purno y) {
+    ferot x + y;
+}
+
+shunno kaj hello() {
+    dekhao "hello world";
+    ferot;
+}
+
+// input
+neo a;
+
+// print
+dekhao a + b;
+dekhao 'X';

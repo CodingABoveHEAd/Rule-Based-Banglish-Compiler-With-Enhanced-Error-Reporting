@@ -551,75 +551,17 @@ char *yytext;
 #line 1 "lexer.l"
 #line 2 "lexer.l"
 /*
- * Banglish Compiler — Lexer (Flex)
- * Bison-compatible: every rule returns a token code and sets yylval.
- * Standalone test: main() loops yylex() and logs to output.txt.
- * When adding parser.y, remove main() and #include "parser.tab.h"
- * instead of the manual defines below.
+ * Banglish Compiler - Lexer (Flex)
+ * Integrated with Bison: token codes and YYSTYPE come from parser.tab.h
  */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "parser.tab.h"
 
-/* ── Token codes (mirror %token in parser.y when you add it) ── */
-/* Data-type keywords */
-#define INT_KW      1
-#define FLOAT_KW    2
-#define BOOL_KW     3
-#define VOID_KW     4
-#define CONST_KW    5
-/* Boolean literal keywords */
-#define TRUE_KW     6
-#define FALSE_KW    7
-/* Control-flow keywords */
-#define IF_KW       10
-#define ELSE_KW     11
-#define WHILE_KW    12
-#define FOR_KW      13
-#define DO_KW       14
-#define SWITCH_KW   15
-#define CASE_KW     16
-#define DEFAULT_KW  17
-#define BREAK_KW    18
-#define CONTINUE_KW 19
-/* Function / IO keywords */
-#define RETURN_KW   20
-#define PRINT_KW    21
-#define INPUT_KW    22
-#define FUNC_KW     23
-/* Literals */
-#define INT_LIT     30
-#define FLOAT_LIT   31
-#define STRING_LIT  32
-#define CHAR_LIT    33
-/* Identifier */
-#define IDENTIFIER  40
-/* Multi-char operators */
-#define LE_OP       50
-#define GE_OP       51
-#define EQ_OP       52
-#define NE_OP       53
-#define AND_OP      54
-#define OR_OP       55
-#define INC_OP      56
-#define DEC_OP      57
-#define ADD_ASSIGN  58
-#define SUB_ASSIGN  59
-#define MUL_ASSIGN  60
-#define DIV_ASSIGN  61
-/* Single-char operators and delimiters are returned as their ASCII value */
+/* Shared globals */
+FILE *out;
 
-/* ── Semantic value union (Bison replaces this with its YYSTYPE) ── */
-typedef union {
-    int    ival;       /* INT_LIT, TRUE_KW, FALSE_KW   */
-    double fval;       /* FLOAT_LIT                    */
-    char   sval[256];  /* IDENTIFIER, STRING_LIT, CHAR_LIT */
-} YYSTYPE;
-
-YYSTYPE yylval;
-
-/* ── Bookkeeping ── */
-FILE *yyin, *out;
 int line_no        = 1;
 int keyword_count  = 0;
 int id_count       = 0;
@@ -637,9 +579,9 @@ static int emit(int code, const char *label) {
     fprintf(out, "%-16s | %-22s | line %d\n", label, yytext, line_no);
     return code;
 }
-#line 640 "lex.yy.c"
+#line 582 "lex.yy.c"
 
-#line 642 "lex.yy.c"
+#line 584 "lex.yy.c"
 
 #define INITIAL 0
 #define COMMENT 1
@@ -857,10 +799,10 @@ YY_DECL
 		}
 
 	{
-#line 95 "lexer.l"
+#line 37 "lexer.l"
 
 
-#line 863 "lex.yy.c"
+#line 805 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -919,44 +861,44 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 97 "lexer.l"
+#line 39 "lexer.l"
 ;
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 98 "lexer.l"
+#line 40 "lexer.l"
 { line_no++; }
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 101 "lexer.l"
+#line 43 "lexer.l"
 { comment_count++; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 104 "lexer.l"
+#line 46 "lexer.l"
 { comment_start_line = line_no; BEGIN(COMMENT); }
 	YY_BREAK
 
 case 5:
 YY_RULE_SETUP
-#line 107 "lexer.l"
+#line 49 "lexer.l"
 { comment_count++; BEGIN(INITIAL); }
 	YY_BREAK
 case 6:
 /* rule 6 can match eol */
 YY_RULE_SETUP
-#line 108 "lexer.l"
+#line 50 "lexer.l"
 { line_no++; }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 109 "lexer.l"
+#line 51 "lexer.l"
 ;
 	YY_BREAK
 case YY_STATE_EOF(COMMENT):
-#line 110 "lexer.l"
+#line 52 "lexer.l"
 {
                             fprintf(out,"Lexical Error: Unterminated multi-line comment starting at line %d\n",
                                    comment_start_line);
@@ -967,172 +909,172 @@ case YY_STATE_EOF(COMMENT):
 
 case 8:
 YY_RULE_SETUP
-#line 119 "lexer.l"
+#line 61 "lexer.l"
 { keyword_count++; return emit(INT_KW,      "INT_KW");     }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 120 "lexer.l"
+#line 62 "lexer.l"
 { keyword_count++; return emit(FLOAT_KW,    "FLOAT_KW");   }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 121 "lexer.l"
+#line 63 "lexer.l"
 { keyword_count++; return emit(BOOL_KW,     "BOOL_KW");    }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 122 "lexer.l"
+#line 64 "lexer.l"
 { keyword_count++; return emit(VOID_KW,     "VOID_KW");    }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 123 "lexer.l"
+#line 65 "lexer.l"
 { keyword_count++; return emit(CONST_KW,    "CONST_KW");   }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 124 "lexer.l"
+#line 66 "lexer.l"
 { keyword_count++; yylval.ival = 1; return emit(TRUE_KW,   "TRUE_KW");  }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 125 "lexer.l"
+#line 67 "lexer.l"
 { keyword_count++; yylval.ival = 0; return emit(FALSE_KW,  "FALSE_KW"); }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 126 "lexer.l"
+#line 68 "lexer.l"
 { keyword_count++; return emit(IF_KW,       "IF_KW");      }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 127 "lexer.l"
+#line 69 "lexer.l"
 { keyword_count++; return emit(ELSE_KW,     "ELSE_KW");    }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 128 "lexer.l"
+#line 70 "lexer.l"
 { keyword_count++; return emit(WHILE_KW,    "WHILE_KW");   }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 129 "lexer.l"
+#line 71 "lexer.l"
 { keyword_count++; return emit(FOR_KW,      "FOR_KW");     }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 130 "lexer.l"
+#line 72 "lexer.l"
 { keyword_count++; return emit(DO_KW,       "DO_KW");      }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 131 "lexer.l"
+#line 73 "lexer.l"
 { keyword_count++; return emit(SWITCH_KW,   "SWITCH_KW");  }
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 132 "lexer.l"
+#line 74 "lexer.l"
 { keyword_count++; return emit(CASE_KW,     "CASE_KW");    }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 133 "lexer.l"
+#line 75 "lexer.l"
 { keyword_count++; return emit(DEFAULT_KW,  "DEFAULT_KW"); }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 134 "lexer.l"
+#line 76 "lexer.l"
 { keyword_count++; return emit(BREAK_KW,    "BREAK_KW");   }
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 135 "lexer.l"
+#line 77 "lexer.l"
 { keyword_count++; return emit(CONTINUE_KW, "CONTINUE_KW");}
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 136 "lexer.l"
+#line 78 "lexer.l"
 { keyword_count++; return emit(RETURN_KW,   "RETURN_KW");  }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 137 "lexer.l"
+#line 79 "lexer.l"
 { keyword_count++; return emit(PRINT_KW,    "PRINT_KW");   }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 138 "lexer.l"
+#line 80 "lexer.l"
 { keyword_count++; return emit(INPUT_KW,    "INPUT_KW");   }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 139 "lexer.l"
+#line 81 "lexer.l"
 { keyword_count++; return emit(FUNC_KW,     "FUNC_KW");    }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 143 "lexer.l"
+#line 85 "lexer.l"
 { operator_count++; division_seen=0; return emit(LE_OP,     "LE_OP");     }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 144 "lexer.l"
+#line 86 "lexer.l"
 { operator_count++; division_seen=0; return emit(GE_OP,     "GE_OP");     }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 145 "lexer.l"
+#line 87 "lexer.l"
 { operator_count++; division_seen=0; return emit(EQ_OP,     "EQ_OP");     }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 146 "lexer.l"
+#line 88 "lexer.l"
 { operator_count++; division_seen=0; return emit(NE_OP,     "NE_OP");     }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 147 "lexer.l"
+#line 89 "lexer.l"
 { operator_count++; division_seen=0; return emit(AND_OP,    "AND_OP");    }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 148 "lexer.l"
+#line 90 "lexer.l"
 { operator_count++; division_seen=0; return emit(OR_OP,     "OR_OP");     }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 149 "lexer.l"
+#line 91 "lexer.l"
 { operator_count++; division_seen=0; return emit(INC_OP,    "INC_OP");    }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 150 "lexer.l"
+#line 92 "lexer.l"
 { operator_count++; division_seen=0; return emit(DEC_OP,    "DEC_OP");    }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 151 "lexer.l"
+#line 93 "lexer.l"
 { operator_count++; division_seen=0; return emit(ADD_ASSIGN, "ADD_ASSIGN"); }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 152 "lexer.l"
+#line 94 "lexer.l"
 { operator_count++; division_seen=0; return emit(SUB_ASSIGN, "SUB_ASSIGN"); }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 153 "lexer.l"
+#line 95 "lexer.l"
 { operator_count++; division_seen=0; return emit(MUL_ASSIGN, "MUL_ASSIGN"); }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 154 "lexer.l"
+#line 96 "lexer.l"
 { operator_count++; division_seen=0; return emit(DIV_ASSIGN, "DIV_ASSIGN"); }
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 157 "lexer.l"
+#line 99 "lexer.l"
 {
     fprintf(out, "LEXICAL ERROR     | Invalid identifier '%-8s| line %d\n", yytext, line_no);
     error_count++;
@@ -1140,7 +1082,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 161 "lexer.l"
+#line 103 "lexer.l"
 {
     fprintf(out, "LEXICAL ERROR     | Invalid number '%-11s| line %d\n", yytext, line_no);
     error_count++;
@@ -1148,7 +1090,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 165 "lexer.l"
+#line 107 "lexer.l"
 {
     literal_count++;
     yylval.fval = strtod(yytext, NULL);
@@ -1162,7 +1104,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 175 "lexer.l"
+#line 117 "lexer.l"
 {
     literal_count++;
     yylval.ival = atoi(yytext);
@@ -1176,7 +1118,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 185 "lexer.l"
+#line 127 "lexer.l"
 {
     literal_count++;
     int len = (int)strlen(yytext) - 2;
@@ -1190,7 +1132,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 195 "lexer.l"
+#line 137 "lexer.l"
 {
     literal_count++;
     yylval.sval[0] = yytext[1];
@@ -1201,7 +1143,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 202 "lexer.l"
+#line 144 "lexer.l"
 {
     fprintf(out, "LEXICAL ERROR     | Unterminated string         | line %d\n", line_no);
     error_count++;
@@ -1210,7 +1152,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 209 "lexer.l"
+#line 151 "lexer.l"
 {
     id_count++;
     strncpy(yylval.sval, yytext, 255);
@@ -1225,7 +1167,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 220 "lexer.l"
+#line 162 "lexer.l"
 {
     operator_count++;
     division_seen = 1;
@@ -1235,7 +1177,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 226 "lexer.l"
+#line 169 "lexer.l"
 {
     operator_count++;
     division_seen = 0;
@@ -1245,7 +1187,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 232 "lexer.l"
+#line 176 "lexer.l"
 {
     delimiter_count++;
     division_seen = 0;
@@ -1255,7 +1197,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 238 "lexer.l"
+#line 182 "lexer.l"
 {
     fprintf(out, "LEXICAL ERROR     | Illegal symbol '%-8s| line %d\n", yytext, line_no);
     error_count++;
@@ -1263,10 +1205,10 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 242 "lexer.l"
+#line 186 "lexer.l"
 ECHO;
 	YY_BREAK
-#line 1269 "lex.yy.c"
+#line 1211 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2271,45 +2213,8 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 242 "lexer.l"
+#line 186 "lexer.l"
 
 
 
-/*
- * Standalone test driver.
- * Remove this entire main() when integrating with Bison —
- * yyparse() in parser.y will call yylex() itself.
- */
-int main(int argc, char **argv) {
-    if (argc != 2) {
-        printf("Usage: %s <source-file>\n", argv[0]);
-        return 1;
-    }
-    yyin = fopen(argv[1], "r");
-    if (!yyin) { perror("Cannot open source file"); return 1; }
-    out  = fopen("output.txt", "w");
-    if (!out)  { perror("Cannot open output.txt");  return 1; }
-
-    /* Table header */
-    fprintf(out, "%-16s | %-22s | %s\n",
-            "TOKEN TYPE", "LEXEME", "LOCATION");
-    fprintf(out, "%-16s | %-22s | %s\n",
-            "----------------", "----------------------", "--------");
-
-    /* Drive the lexer exactly as Bison's yyparse() will */
-    while (yylex() != 0) { /* yylval already set inside each rule */ }
-
-    fprintf(out, "\n===== LEXICAL ANALYSIS SUMMARY =====\n");
-    fprintf(out, "Keywords    : %d\n", keyword_count);
-    fprintf(out, "Identifiers : %d\n", id_count);
-    fprintf(out, "Literals    : %d\n", literal_count);
-    fprintf(out, "Operators   : %d\n", operator_count);
-    fprintf(out, "Delimiters  : %d\n", delimiter_count);
-    fprintf(out, "Comments    : %d\n", comment_count);
-    fprintf(out, "Warnings    : %d\n", warning_count);
-    fprintf(out, "Errors      : %d\n", error_count);
-
-    fclose(yyin);
-    fclose(out);
-    return 0;
-}
+/* main() is now in parser.y — Bison's yyparse() drives yylex() */

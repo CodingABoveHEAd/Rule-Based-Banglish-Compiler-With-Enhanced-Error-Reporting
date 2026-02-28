@@ -1,0 +1,16 @@
+test command:
+
+unalias flex bison
+flex lexer.l
+gcc lex.yy.c -o lexer
+./lexer sample.bl > output.txt
+
+important rules for better understanding:
+([^\\\n]|\\.) any charecter except \ , \n or any other \t,\b rtc.
+int len = (int)strlen(yytext) - 2; -2 because two quotes elimination
+strncpy(yylval.sval, yytext + 1, len);  yytext + 1 → skips opening quote "
+
+
+/* Resolve dangling-else: ELSE_KW binds tighter than "no else" */
+%nonassoc LOWER_THAN_ELSE
+%nonassoc ELSE_KW

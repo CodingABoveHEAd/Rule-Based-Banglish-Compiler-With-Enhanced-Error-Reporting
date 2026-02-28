@@ -1,80 +1,16 @@
 %{
 /*
- * Banglish Compiler — Lexer (Flex)
- * Bison-compatible: every rule returns a token code and sets yylval.
- * Standalone test: main() loops yylex() and logs to output.txt.
- * When adding parser.y, remove main() and #include "parser.tab.h"
- * instead of the manual defines below.
+ * Banglish Compiler - Lexer (Flex)
+ * Integrated with Bison: token codes and YYSTYPE come from parser.tab.h
  */
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "parser.tab.h"
 
-/* ── Token codes (mirror %token in parser.y when you add it) ── */
+/* Shared globals */
+FILE *out;
 
-/* Data-type keywords */
-#define INT_KW      1
-#define FLOAT_KW    2
-#define BOOL_KW     3
-#define VOID_KW     4
-#define CONST_KW    5
-
-/* Boolean literal keywords */
-#define TRUE_KW     6
-#define FALSE_KW    7
-
-/* Control-flow keywords */
-#define IF_KW       10
-#define ELSE_KW     11
-#define WHILE_KW    12
-#define FOR_KW      13
-#define DO_KW       14
-#define SWITCH_KW   15
-#define CASE_KW     16
-#define DEFAULT_KW  17
-#define BREAK_KW    18
-#define CONTINUE_KW 19
-
-/* Function / IO keywords */
-#define RETURN_KW   20
-#define PRINT_KW    21
-#define INPUT_KW    22
-#define FUNC_KW     23
-
-/* Literals */
-#define INT_LIT     30
-#define FLOAT_LIT   31
-#define STRING_LIT  32
-#define CHAR_LIT    33
-
-/* Identifier */
-#define IDENTIFIER  40
-/* Multi-char operators */
-#define LE_OP       50
-#define GE_OP       51
-#define EQ_OP       52
-#define NE_OP       53
-#define AND_OP      54
-#define OR_OP       55
-#define INC_OP      56
-#define DEC_OP      57
-#define ADD_ASSIGN  58
-#define SUB_ASSIGN  59
-#define MUL_ASSIGN  60
-#define DIV_ASSIGN  61
-/* Single-char operators and delimiters are returned as their ASCII value */
-
-/* ── Semantic value union (Bison replaces this with its YYSTYPE) ── */
-typedef union {
-    int    ival;       /* INT_LIT, TRUE_KW, FALSE_KW   */
-    double fval;       /* FLOAT_LIT                    */
-    char   sval[256];  /* IDENTIFIER, STRING_LIT, CHAR_LIT */
-} YYSTYPE;
-
-YYSTYPE yylval;
-
-/* ── Bookkeeping ── */
-FILE *yyin, *out;
 int line_no        = 1;
 int keyword_count  = 0;
 int id_count       = 0;
@@ -198,7 +134,8 @@ kaj         { keyword_count++; return emit(FUNC_KW,     "FUNC_KW");    }
     division_seen = 0;
     return emit(STRING_LIT, "STRING_LIT");
 }
-'([^\\\n]|\\.)' {
+
+'([^\\\n]|\\.)' {       
     literal_count++;
     yylval.sval[0] = yytext[1];
     yylval.sval[1] = '\0';
@@ -250,43 +187,4 @@ kaj         { keyword_count++; return emit(FUNC_KW,     "FUNC_KW");    }
 %%
 
 
-/*
- * Standalone test driver.
- * Remove this entire main() when integrating with Bison —
- * yyparse() in parser.y will call yylex() itself.
- */
-
- 
-int main(int argc, char **argv) {
-    if (argc != 2) {
-        printf("Usage: %s <source-file>\n", argv[0]);
-        return 1;
-    }
-    yyin = fopen(argv[1], "r");
-    if (!yyin) { perror("Cannot open source file"); return 1; }
-    out  = fopen("output.txt", "w");
-    if (!out)  { perror("Cannot open output.txt");  return 1; }
-
-    /* Table header */
-    fprintf(out, "%-16s | %-22s | %s\n",
-            "TOKEN TYPE", "LEXEME", "LOCATION");
-    fprintf(out, "%-16s | %-22s | %s\n",
-            "----------------", "----------------------", "--------");
-
-    /* Drive the lexer exactly as Bison's yyparse() will */
-    while (yylex() != 0) { /* yylval already set inside each rule */ }
-
-    fprintf(out, "\n===== LEXICAL ANALYSIS SUMMARY =====\n");
-    fprintf(out, "Keywords    : %d\n", keyword_count);
-    fprintf(out, "Identifiers : %d\n", id_count);
-    fprintf(out, "Literals    : %d\n", literal_count);
-    fprintf(out, "Operators   : %d\n", operator_count);
-    fprintf(out, "Delimiters  : %d\n", delimiter_count);
-    fprintf(out, "Comments    : %d\n", comment_count);
-    fprintf(out, "Warnings    : %d\n", warning_count);
-    fprintf(out, "Errors      : %d\n", error_count);
-
-    fclose(yyin);
-    fclose(out);
-    return 0;
-}
+/* main() is now in parser.y — Bison's yyparse() drives yylex() */

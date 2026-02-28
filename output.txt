@@ -5,21 +5,25 @@ IDENTIFIER       | a                      | line 3
 OPERATOR         | =                      | line 3
 INT_LIT          | 10                     | line 3
 DELIMITER        | ;                      | line 3
+[PARSER] Declaration: a (with init) at line 3
 FLOAT_KW         | dosomik                | line 4
 IDENTIFIER       | b                      | line 4
 OPERATOR         | =                      | line 4
 FLOAT_LIT        | 0.5                    | line 4
 DELIMITER        | ;                      | line 4
+[PARSER] Declaration: b (with init) at line 4
 BOOL_KW          | torkik                 | line 5
 IDENTIFIER       | flag                   | line 5
 OPERATOR         | =                      | line 5
 TRUE_KW          | shotti                 | line 5
 DELIMITER        | ;                      | line 5
+[PARSER] Declaration: flag (with init) at line 5
 BOOL_KW          | torkik                 | line 6
 IDENTIFIER       | done                   | line 6
 OPERATOR         | =                      | line 6
 FALSE_KW         | mithya                 | line 6
 DELIMITER        | ;                      | line 6
+[PARSER] Declaration: done (with init) at line 6
 IF_KW            | jodi                   | line 9
 DELIMITER        | (                      | line 9
 IDENTIFIER       | a                      | line 9
@@ -34,13 +38,16 @@ DELIMITER        | {                      | line 9
 PRINT_KW         | dekhao                 | line 10
 STRING_LIT       | "jodi block"           | line 10
 DELIMITER        | ;                      | line 10
+[PARSER] Print statement at line 10
 DELIMITER        | }                      | line 11
 ELSE_KW          | nahole                 | line 11
 DELIMITER        | {                      | line 11
 PRINT_KW         | dekhao                 | line 12
 STRING_LIT       | "nahole block"         | line 12
 DELIMITER        | ;                      | line 12
+[PARSER] Print statement at line 12
 DELIMITER        | }                      | line 13
+[PARSER] If-Else statement at line 13
 WHILE_KW         | jotokhon               | line 15
 DELIMITER        | (                      | line 15
 IDENTIFIER       | a                      | line 15
@@ -54,9 +61,12 @@ IDENTIFIER       | a                      | line 16
 OPERATOR         | -                      | line 16
 INT_LIT          | 1                      | line 16
 DELIMITER        | ;                      | line 16
+[PARSER] Assignment: a at line 16
 CONTINUE_KW      | chaliejao              | line 17
 DELIMITER        | ;                      | line 17
+[PARSER] Continue at line 17
 DELIMITER        | }                      | line 18
+[PARSER] While loop at line 18
 FOR_KW           | ghuro                  | line 20
 DELIMITER        | (                      | line 20
 INT_KW           | purno                  | line 20
@@ -75,9 +85,12 @@ DELIMITER        | {                      | line 20
 PRINT_KW         | dekhao                 | line 21
 IDENTIFIER       | i                      | line 21
 DELIMITER        | ;                      | line 21
+[PARSER] Print statement at line 21
 BREAK_KW         | tham                   | line 22
 DELIMITER        | ;                      | line 22
+[PARSER] Break at line 22
 DELIMITER        | }                      | line 23
+[PARSER] For loop at line 23
 SWITCH_KW        | bachai                 | line 26
 DELIMITER        | (                      | line 26
 IDENTIFIER       | a                      | line 26
@@ -89,14 +102,20 @@ DELIMITER        | :                      | line 27
 PRINT_KW         | dekhao                 | line 28
 STRING_LIT       | "one"                  | line 28
 DELIMITER        | ;                      | line 28
+[PARSER] Print statement at line 28
 BREAK_KW         | tham                   | line 29
 DELIMITER        | ;                      | line 29
+[PARSER] Break at line 29
 DEFAULT_KW       | onnothay               | line 30
+[PARSER] Case clause at line 30
 DELIMITER        | :                      | line 30
 PRINT_KW         | dekhao                 | line 31
 STRING_LIT       | "other"                | line 31
 DELIMITER        | ;                      | line 31
+[PARSER] Print statement at line 31
 DELIMITER        | }                      | line 32
+[PARSER] Default clause at line 32
+[PARSER] Switch statement at line 32
 DO_KW            | koro                   | line 34
 DELIMITER        | {                      | line 34
 IDENTIFIER       | a                      | line 35
@@ -105,6 +124,7 @@ IDENTIFIER       | a                      | line 35
 OPERATOR         | -                      | line 35
 INT_LIT          | 1                      | line 35
 DELIMITER        | ;                      | line 35
+[PARSER] Assignment: a at line 35
 DELIMITER        | }                      | line 36
 WHILE_KW         | jotokhon               | line 36
 DELIMITER        | (                      | line 36
@@ -113,12 +133,14 @@ OPERATOR         | >                      | line 36
 INT_LIT          | 2                      | line 36
 DELIMITER        | )                      | line 36
 DELIMITER        | ;                      | line 36
+[PARSER] Do-While loop at line 36
 CONST_KW         | dhrubo                 | line 38
 INT_KW           | purno                  | line 38
 IDENTIFIER       | n                      | line 38
 OPERATOR         | =                      | line 38
 INT_LIT          | 5                      | line 38
 DELIMITER        | ;                      | line 38
+[PARSER] Const declaration: n at line 38
 VOID_KW          | shunno                 | line 39
 FUNC_KW          | kaj                    | line 39
 IDENTIFIER       | myFunc                 | line 39
@@ -127,44 +149,57 @@ DELIMITER        | )                      | line 39
 DELIMITER        | {                      | line 39
 RETURN_KW        | ferot                  | line 40
 DELIMITER        | ;                      | line 40
+[PARSER] Return (void) at line 40
 DELIMITER        | }                      | line 41
+[PARSER] Function def: myFunc at line 41
 INPUT_KW         | neo                    | line 43
 IDENTIFIER       | a                      | line 43
 DELIMITER        | ;                      | line 43
+[PARSER] Input statement: a at line 43
 INT_KW           | purno                  | line 46
 IDENTIFIER       | code                   | line 46
 OPERATOR         | =                      | line 46
 CHAR_LIT         | 'A'                    | line 46
 DELIMITER        | ;                      | line 46
+[PARSER] Declaration: code (with init) at line 46
 PRINT_KW         | dekhao                 | line 47
 STRING_LIT       | "Hello Banglish Lexer" | line 47
 DELIMITER        | ;                      | line 47
+[PARSER] Print statement at line 47
 IDENTIFIER       | a                      | line 50
 ADD_ASSIGN       | +=                     | line 50
 INT_LIT          | 2                      | line 50
 DELIMITER        | ;                      | line 50
+[PARSER] Assignment: a += at line 50
 IDENTIFIER       | a                      | line 51
 SUB_ASSIGN       | -=                     | line 51
 INT_LIT          | 1                      | line 51
 DELIMITER        | ;                      | line 51
+[PARSER] Assignment: a -= at line 51
 IDENTIFIER       | a                      | line 52
 MUL_ASSIGN       | *=                     | line 52
 INT_LIT          | 3                      | line 52
 DELIMITER        | ;                      | line 52
+[PARSER] Assignment: a *= at line 52
 IDENTIFIER       | a                      | line 53
 DIV_ASSIGN       | /=                     | line 53
 INT_LIT          | 2                      | line 53
 DELIMITER        | ;                      | line 53
+[PARSER] Assignment: a /= at line 53
 IDENTIFIER       | a                      | line 54
 INC_OP           | ++                     | line 54
 DELIMITER        | ;                      | line 54
+[PARSER] Increment: a at line 54
 IDENTIFIER       | a                      | line 55
 DEC_OP           | --                     | line 55
 DELIMITER        | ;                      | line 55
+[PARSER] Decrement: a at line 55
 LEXICAL ERROR     | Invalid identifier '123abc  | line 60
 LEXICAL ERROR     | Invalid number '12.3.4     | line 61
 LEXICAL ERROR     | Unterminated string         | line 62
 LEXICAL ERROR     | Illegal symbol '@       | line 63
+
+[PARSER] Program parsed successfully.
 
 ===== LEXICAL ANALYSIS SUMMARY =====
 Keywords    : 33
@@ -173,5 +208,10 @@ Literals    : 21
 Operators   : 24
 Delimiters  : 56
 Comments    : 6
-Warnings    : 0
-Errors      : 4
+
+===== SYNTAX ANALYSIS SUMMARY =====
+Syntax errors  : 0
+Lexical errors : 4
+Warnings       : 0
+
+>> Compilation: SUCCESSFUL (No errors)
