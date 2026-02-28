@@ -1,0 +1,291 @@
+Page 1 of 9
+
+
+
+ A Rule-Based Compiler for the Banglish Programming Language with Enhanced Error Reporting
+
+Course Information:
+
+Course No. : CSE 3212
+
+Course Title : Compiler Design Laboratory
+
+  Name: Niloy Chowdhury
+
+  Roll: 2107117
+
+  Dept: Computer Science and Engineering
+
+  
+
+Student Information:
+
+Teacher Information:
+
+Ms. Subah Nawar
+
+Lecturer
+
+Department of  Computer Science and Engineering
+
+Khulna University of Engineering and Technology,Khulna
+
+Mr. Md. Badiuzzaman Shuvo
+
+Lecturer
+
+Department of  Computer Science and    Engineering
+
+Khulna University of Engineering and Technology,Khulna
+
+
+Page 1 of 9
+
+Abstract
+
+This project presents the design and implementation of a Banglish (Bangla written using English letters) programming language compiler using C, Flex, and Bison. The compiler follows a complete compilation pipeline including lexical analysis, syntax analysis, abstract syntax tree (AST) construction, semantic analysis, intermediate code generation, and basic optimization. In addition to traditional compiler functionality, the proposed system introduces unique features such as Banglish error messages with human-friendly explanations, static code quality analysis, and partial compile-time evaluation. The project demonstrates how a localized, domain-specific language can be implemented without altering the fundamental principles of compiler design.
+
+
+1. Introduction
+
+Compiler design is a fundamental area of computer science that focuses on translating high-level programming languages into lower-level representations while ensuring correctness and efficiency. Most modern compilers are designed for English-based programming languages such as C, C++, or Java. However, language localization and domain-specific languages (DSLs) are gaining importance for education and accessibility.
+
+This project aims to design a Banglish programming language compiler that allows programmers to write code using Banglish keywords while preserving standard compiler behavior. The motivation is to explore compiler construction techniques while extending traditional compilers with semantic intelligence, localized error reporting, and static program analysis. The compiler is implemented entirely using rule-based techniques in C with Flex and Bison, ensuring determinism and academic correctness.
+
+
+2. Objectives
+
+The main objectives of this project are: - To design a well-defined Banglish programming language syntax - To implement a complete compiler using C, Flex, and Bison - To perform lexical, syntactic, and semantic analysis - To generate intermediate representation using three-address code - To detect semantic errors and report them in Banglish with clear explanations - To perform static code quality analysis such as unused variable detection - To apply basic compile-time optimizations.
+
+
+3. Overview of the Banglish Programming Language
+
+3.1 Language Design
+
+The Banglish programming language is a domain-specific language where keywords are written in Banglish, while operators remain symbolic to simplify parsing.
+
+3.2 Keyword Mapping
+
+Banglish Keyword 
+
+Meaning
+
+purno
+
+int
+
+dosomik
+
+float
+
+jodi
+
+if
+
+nahole
+
+else
+
+jotokhon
+
+while
+
+dekhao
+
+print
+
+ferot
+
+return
+
+3.3 Sample Program
+
+purno a = 10;
+purno b = 20;
+
+jodi (a < b) {
+    dekhao(a + b);
+}
+
+
+4. System Architecture
+
+The compiler follows a standard multi-phase architecture as shown in the diagram below:
+
+Compiler Pipeline Diagram
+
+
+
+Figure:Banglish Compiler Pipeline
+
+
+Each phase is implemented as a separate module to ensure modularity and maintainability.
+
+5. Lexical Analysis
+
+Lexical analysis is performed using Flex. The lexer identifies tokens such as keywords, identifiers, literals, operators, and delimiters. Banglish keywords are mapped directly to token types. Line numbers are tracked to support precise error reporting.
+
+Example token rule:
+
+"purno"    return INT;
+
+
+6. Syntax Analysis
+
+Syntax analysis is implemented using Bison. A context-free grammar defines the syntactic structure of the Banglish language. The parser validates program structure and constructs the abstract syntax tree (AST).
+
+The grammar supports variable declarations, assignments, conditional statements, loops, and print statements.
+
+
+7. Abstract Syntax Tree (AST)
+
+The AST represents the hierarchical structure of the source program. Each node corresponds to a language construct such as expressions, statements, or declarations. The AST enables further semantic analysis and code generation independent of the grammar.
+
+
+7.1 Detailed AST Example
+
+For the sample Banglish program:
+
+purno a = 10;
+purno b = 20;
+
+jodi (a < b) {
+    dekhao(a + b);
+}
+
+The detailed AST structure would be:
+
+Program
+├── Declaration: purno a
+│   └── Value: 10
+├── Declaration: purno b
+│   └── Value: 20
+└── IfStatement
+    ├── Condition: a < b
+    │   ├── Identifier: a
+    │   └── Identifier: b
+    └── Body
+        └── PrintStatement
+            └── Expression: a + b
+                ├── Identifier: a
+                └── Identifier: b
+
+This structure clearly shows: - Program root as the entry point - Declaration nodes with their values - Control flow node (IfStatement) with condition and body - Nested expressions under print statements.
+
+
+7.2 Benefits of Detailed AST
+
+Makes semantic checks straightforward.
+
+Enables type checking at expression nodes.
+
+Simplifies code generation for 3-address code.
+
+Provides a visual representation for understanding program structure.
+
+8. Semantic Analysis
+
+Semantic analysis ensures that the program is logically correct. This phase uses a symbol table to track identifiers, types, and scopes. The following checks are performed: - Undeclared variable usage - Variable redeclaration - Type mismatch in expressions and assignments - Division by zero (static detection where possible).
+
+Errors are reported using Banglish messages with clear explanations and suggestions.
+
+
+9. Banglish Error Reporting and Explanation
+
+Unlike traditional compilers that provide brief error messages, this compiler produces descriptive Banglish messages. Error detection is rule-based and deterministic.
+
+Example:
+
+Error (line 4):
+'purno' type er variable e dosomik value assign kora jabe na.
+Suggestion: Variable er type 'dosomik' kore nin.
+
+This feature improves readability and user understanding without using any AI assistance.
+
+
+10. Static Code Quality Analysis
+
+The compiler performs static analysis to detect potential issues that may not prevent compilation but affect code quality. These include: - Unused variable detection - Variables declared but never initialized - Unreachable code blocks.
+
+Warnings are displayed in Banglish to assist programmers during development.
+
+
+11. Intermediate Code Generation
+
+The compiler generates three-address code (3AC) as an intermediate representation. This simplifies optimization and demonstrates understanding of compiler back-end design.
+
+Example:
+
+t1 = a + b
+x = t1
+
+
+12. Compile-Time Optimization
+
+Basic optimizations are applied during compilation, including: - Constant folding - Partial compile-time evaluation of expressions.
+
+These optimizations reduce runtime computation and improve program efficiency.
+
+
+13. Implementation Tools and Technologies
+
+Tool
+
+Purpose
+
+C
+
+Core implementation language
+
+Flex
+
+Lexical analyzer generation
+
+Bison
+
+Parser generation
+
+GCC
+
+Compilation and testing
+
+
+14. Limitations
+
+The language supports a limited subset of programming constructs.
+
+Advanced optimizations are not implemented.
+
+Runtime execution is not included.
+
+These limitations are intentional to maintain manageable project scope.
+
+
+15. Future Work
+
+Possible extensions of this project include: 
+
+- Function and parameter support .
+
+- Code generation to C or assembly - Advanced data-flow optimizations .
+
+- Optional AI-assisted tutoring explanations.
+
+
+16. Conclusion
+
+This project successfully demonstrates the design and implementation of a Banglish programming language compiler using Flex and Bison. By integrating localized syntax with advanced semantic analysis and static code quality checks, the compiler extends traditional compilation techniques while remaining academically sound. The project highlights how compiler principles can be adapted for localized and educational programming languages.
+
+
+References
+
+Aho, A. V., Lam, M. S., Sethi, R., & Ullman, J. D. Compilers: Principles, Techniques, and Tools. Pearson.
+
+Levine, J. Flex & Bison. O’Reilly Media.
+
+Muchnick, S. S. Advanced Compiler Design and Implementation. Morgan Kaufmann.
+
+•••
+•••
+Go to
+Page

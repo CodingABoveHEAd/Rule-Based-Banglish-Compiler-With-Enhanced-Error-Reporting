@@ -1,85 +1,175 @@
 INT_KW at line 3
-ID x at line 3
+ID a at line 3
 OPERATOR = at line 3
 INT_LITERAL 10 at line 3
-OPERATOR ; at line 3
+DELIMITER ; at line 3
 FLOAT_KW at line 4
-ID rate at line 4
+ID b at line 4
 OPERATOR = at line 4
-FLOAT_LITERAL 3.14 at line 4
-OPERATOR ; at line 4
-INT_LITERAL 15 at line 6
-OPERATOR / at line 6
-INT_LITERAL 0 at line 6
-Semantic Error: Division by zero detected at line 6
-OPERATOR ; at line 6
-IF_KW at line 8
-OPERATOR ( at line 8
-ID x at line 8
-OPERATOR >= at line 8
-INT_LITERAL 10 at line 8
-OPERATOR && at line 8
-ID rate at line 8
-OPERATOR != at line 8
-FLOAT_LITERAL 0.0 at line 8
-OPERATOR ) at line 8
-OPERATOR { at line 8
-PRINT_KW at line 9
-ID x at line 9
-OPERATOR ; at line 9
-OPERATOR } at line 10
+FLOAT_LITERAL 0.5 at line 4
+DELIMITER ; at line 4
+BOOL_KW at line 5
+ID flag at line 5
+OPERATOR = at line 5
+TRUE_KW at line 5
+DELIMITER ; at line 5
+BOOL_KW at line 6
+ID done at line 6
+OPERATOR = at line 6
+FALSE_KW at line 6
+DELIMITER ; at line 6
+IF_KW at line 9
+DELIMITER ( at line 9
+ID a at line 9
+OPERATOR > at line 9
+INT_LITERAL 0 at line 9
+OPERATOR && at line 9
+ID flag at line 9
+OPERATOR == at line 9
+TRUE_KW at line 9
+DELIMITER ) at line 9
+DELIMITER { at line 9
+PRINT_KW at line 10
+STRING_LITERAL "jodi block" at line 10
+DELIMITER ; at line 10
+DELIMITER } at line 11
 ELSE_KW at line 11
-OPERATOR { at line 11
+DELIMITER { at line 11
 PRINT_KW at line 12
-ID rate at line 12
-OPERATOR ; at line 12
-OPERATOR } at line 13
-WHILE_KW at line 19
-OPERATOR ( at line 19
-ID x at line 19
-OPERATOR > at line 19
-INT_LITERAL 0 at line 19
-OPERATOR ) at line 19
-OPERATOR { at line 19
-ID x at line 20
+STRING_LITERAL "nahole block" at line 12
+DELIMITER ; at line 12
+DELIMITER } at line 13
+WHILE_KW at line 15
+DELIMITER ( at line 15
+ID a at line 15
+OPERATOR > at line 15
+INT_LITERAL 0 at line 15
+DELIMITER ) at line 15
+DELIMITER { at line 15
+ID a at line 16
+OPERATOR = at line 16
+ID a at line 16
+OPERATOR - at line 16
+INT_LITERAL 1 at line 16
+DELIMITER ; at line 16
+CONTINUE_KW at line 17
+DELIMITER ; at line 17
+DELIMITER } at line 18
+FOR_KW at line 20
+DELIMITER ( at line 20
+INT_KW at line 20
+ID i at line 20
 OPERATOR = at line 20
-ID x at line 20
-OPERATOR - at line 20
-INT_LITERAL 1 at line 20
-OPERATOR ; at line 20
-OPERATOR } at line 21
-FOR_KW at line 23
-OPERATOR ( at line 23
-INT_KW at line 23
-ID i at line 23
-OPERATOR = at line 23
-INT_LITERAL 0 at line 23
-OPERATOR ; at line 23
-ID i at line 23
-OPERATOR < at line 23
-INT_LITERAL 5 at line 23
-OPERATOR ; at line 23
-ID i at line 23
-OPERATOR = at line 23
-ID i at line 23
-OPERATOR + at line 23
-INT_LITERAL 1 at line 23
-OPERATOR ) at line 23
-OPERATOR { at line 23
-PRINT_KW at line 24
-ID i at line 24
-OPERATOR ; at line 24
-OPERATOR } at line 25
-Lexical Error: Invalid identifier '123abc' at line 32
-Lexical Error: Invalid numeric constant '12.3.4' at line 33
-Lexical Error: Illegal symbol '@' at line 34
-RETURN_KW at line 36
-ID x at line 36
-OPERATOR ; at line 36
+INT_LITERAL 0 at line 20
+DELIMITER ; at line 20
+ID i at line 20
+OPERATOR < at line 20
+INT_LITERAL 3 at line 20
+DELIMITER ; at line 20
+ID i at line 20
+OPERATOR ++ at line 20
+DELIMITER ) at line 20
+DELIMITER { at line 20
+PRINT_KW at line 21
+ID i at line 21
+DELIMITER ; at line 21
+BREAK_KW at line 22
+DELIMITER ; at line 22
+DELIMITER } at line 23
+SWITCH_KW at line 26
+DELIMITER ( at line 26
+ID a at line 26
+DELIMITER ) at line 26
+DELIMITER { at line 26
+CASE_KW at line 27
+INT_LITERAL 1 at line 27
+DELIMITER : at line 27
+PRINT_KW at line 28
+STRING_LITERAL "one" at line 28
+DELIMITER ; at line 28
+BREAK_KW at line 29
+DELIMITER ; at line 29
+DEFAULT_KW at line 30
+DELIMITER : at line 30
+PRINT_KW at line 31
+STRING_LITERAL "other" at line 31
+DELIMITER ; at line 31
+DELIMITER } at line 32
+DO_KW at line 34
+DELIMITER { at line 34
+ID a at line 35
+OPERATOR = at line 35
+ID a at line 35
+OPERATOR - at line 35
+INT_LITERAL 1 at line 35
+DELIMITER ; at line 35
+DELIMITER } at line 36
+WHILE_KW at line 36
+DELIMITER ( at line 36
+ID a at line 36
+OPERATOR > at line 36
+INT_LITERAL 2 at line 36
+DELIMITER ) at line 36
+DELIMITER ; at line 36
+CONST_KW at line 38
+INT_KW at line 38
+ID n at line 38
+OPERATOR = at line 38
+INT_LITERAL 5 at line 38
+DELIMITER ; at line 38
+VOID_KW at line 39
+FUNC_KW at line 39
+ID myFunc at line 39
+DELIMITER ( at line 39
+DELIMITER ) at line 39
+DELIMITER { at line 39
+RETURN_KW at line 40
+DELIMITER ; at line 40
+DELIMITER } at line 41
+INPUT_KW at line 43
+ID a at line 43
+DELIMITER ; at line 43
+INT_KW at line 46
+ID code at line 46
+OPERATOR = at line 46
+CHAR_LITERAL 'A' at line 46
+DELIMITER ; at line 46
+PRINT_KW at line 47
+STRING_LITERAL "Hello Banglish Lexer" at line 47
+DELIMITER ; at line 47
+ID a at line 50
+OPERATOR += at line 50
+INT_LITERAL 2 at line 50
+DELIMITER ; at line 50
+ID a at line 51
+OPERATOR -= at line 51
+INT_LITERAL 1 at line 51
+DELIMITER ; at line 51
+ID a at line 52
+OPERATOR *= at line 52
+INT_LITERAL 3 at line 52
+DELIMITER ; at line 52
+ID a at line 53
+OPERATOR /= at line 53
+INT_LITERAL 2 at line 53
+DELIMITER ; at line 53
+ID a at line 54
+OPERATOR ++ at line 54
+DELIMITER ; at line 54
+ID a at line 55
+OPERATOR -- at line 55
+DELIMITER ; at line 55
+Lexical Error: Invalid identifier '123abc' at line 60
+Lexical Error: Invalid numeric constant '12.3.4' at line 61
+Lexical Error: Unterminated string literal at line 62
+Lexical Error: Illegal symbol '@' at line 63
 
 ===== LEXICAL ANALYSIS SUMMARY =====
-Keywords    : 11
-Identifiers : 15
-Literals    : 11
-Operators   : 37
+Keywords    : 33
+Identifiers : 27
+Literals    : 21
+Operators   : 24
+Delimiters  : 56
+Comments    : 6
+Warnings    : 0
 Errors      : 4

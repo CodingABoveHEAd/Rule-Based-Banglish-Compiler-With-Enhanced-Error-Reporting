@@ -1,36 +1,63 @@
-// Sample Banglish Program for Lexical Analysis
+// Banglish lexer test: keywords + literals + operators + comments
 
-purno x = 10;
-dosomik rate = 3.14;
+purno a = 10;
+dosomik b = 0.5;
+torkik flag = shotti;
+torkik done = mithya;
 
-15/0;
-
-jodi (x >= 10 && rate != 0.0) {
-    dekhao x;
-}
-nahole {
-    dekhao rate;
-}
-
-/* Multi-line comment test
-   This comment spans multiple lines
-*/
-
-jotokhon (x > 0) {
-    x = x - 1;
+// old keywords
+jodi (a > 0 && flag == shotti) {
+    dekhao "jodi block";
+} nahole {
+    dekhao "nahole block";
 }
 
-ghuro (purno i = 0; i < 5; i = i + 1) {
+jotokhon (a > 0) {
+    a = a - 1;
+    chaliejao;
+}
+
+ghuro (purno i = 0; i < 3; i++) {
     dekhao i;
+    tham;
 }
 
+// new Banglish keywords
+bachai (a) {
+    khetre 1:
+        dekhao "one";
+        tham;
+    onnothay:
+        dekhao "other";
+}
 
-/* Unterminated comment test
-   This should trigger a lexical error
-*/
+koro {
+    a = a - 1;
+} jotokhon (a > 2);
 
-123abc          // Invalid identifier
-12.3.4          // Invalid numeric literal
-@               // Illegal symbol
+dhrubo purno n = 5;
+shunno kaj myFunc() {
+    ferot;
+}
 
-ferot x;
+neo a;
+
+// literals
+purno code = 'A';
+dekhao "Hello Banglish Lexer";
+
+// operators and delimiters
+a += 2;
+a -= 1;
+a *= 3;
+a /= 2;
+a++;
+a--;
+
+/* closed comment test
+   still fine */
+
+123abc
+12.3.4
+"unterminated string test
+@
