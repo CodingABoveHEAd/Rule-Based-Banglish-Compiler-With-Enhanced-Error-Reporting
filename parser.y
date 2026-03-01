@@ -1,16 +1,21 @@
 %{
 /*
- * Banglish Compiler - Parser (Bison)
- * -----------------------------------
- * Parses Banglish source code and prints syntax status.
+ * Banglish Compiler - Parser (Bison) with AST Generation
+ * -------------------------------------------------------
+ * Parses Banglish source code and builds an Abstract Syntax Tree.
  * Grammar covers: declarations, assignments, if-else, while,
  * for, do-while, switch-case, print, input, return, functions,
  * break, continue, and expressions with proper precedence.
+ *
+ * Every grammar action creates AST nodes (defined in ast.h/ast.c)
+ * instead of performing direct evaluation or printing.
+ * The resulting tree is pretty-printed after a successful parse.
  */
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "ast.h"
 
 /* Provided by Flex */
 extern int  yylex(void);
@@ -32,6 +37,9 @@ extern int error_count;
 /* Parser error count */
 int syntax_errors = 0;
 
+/* AST root — populated by the top-level `program` rule */
+ASTNode *ast_root = NULL;
+
 void yyerror(const char *msg);
 %}
 
@@ -42,6 +50,7 @@ void yyerror(const char *msg);
     int    ival;
     double fval;
     char   sval[256];
+    struct ASTNode *node;   /* AST node pointer for non-terminals      */
 }
 
 /* ------------------------------------------------------------------ */
@@ -88,6 +97,21 @@ void yyerror(const char *msg);
 %right '!'
 %nonassoc INC_OP DEC_OP
 
+/* ------------------------------------------------------------------ */
+/*  Non-terminal types  (AST nodes returned by grammar rules)          */
+/* ------------------------------------------------------------------ */
+
+%type <node> program stmt_list stmt block
+%type <node> decl_stmt assign_stmt
+%type <node> if_stmt while_stmt for_stmt do_while_stmt
+%type <node> for_init for_update
+%type <node> switch_stmt case_list case_clause
+%type <node> print_stmt input_stmt return_stmt
+%type <node> break_stmt continue_stmt
+%type <node> func_def param_list param
+%type <node> expr_stmt expr arg_list
+%type <sval> type_spec
+
 /* Resolve dangling-else: ELSE_KW binds tighter than "no else" */
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE_KW
@@ -99,12 +123,12 @@ void yyerror(const char *msg);
 /* ================================================================== */
 
 program
-    : stmt_list             { fprintf(out, "\n[PARSER] Program parsed successfully.\n"); }
+    : stmt_list             { ast_root = make_program($1); }
     ;
 
 stmt_list
-    : /* empty */
-    | stmt_list stmt
+    : /* empty */           { $$ = NULL; }
+    | stmt_list stmt        { $$ = append_node($1, $2); }
     ;
 
 /* ================================================================== */
@@ -112,22 +136,22 @@ stmt_list
 /* ================================================================== */
 
 stmt
-    : decl_stmt
-    | assign_stmt
-    | if_stmt
-    | while_stmt
-    | for_stmt
-    | do_while_stmt
-    | switch_stmt
-    | print_stmt
-    | input_stmt
-    | return_stmt
-    | break_stmt
-    | continue_stmt
-    | func_def
-    | block
-    | expr_stmt
-    | error ';'             { yyerrok; /* panic-mode recovery */ }
+    : decl_stmt             { $$ = $1; }
+    | assign_stmt           { $$ = $1; }
+    | if_stmt               { $$ = $1; }
+    | while_stmt            { $$ = $1; }
+    | for_stmt              { $$ = $1; }
+    | do_while_stmt         { $$ = $1; }
+    | switch_stmt           { $$ = $1; }
+    | print_stmt            { $$ = $1; }
+    | input_stmt            { $$ = $1; }
+    | return_stmt           { $$ = $1; }
+    | break_stmt            { $$ = $1; }
+    | continue_stmt         { $$ = $1; }
+    | func_def              { $$ = $1; }
+    | block                 { $$ = $1; }
+    | expr_stmt             { $$ = $1; }
+    | error ';'             { yyerrok; $$ = NULL; }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -135,7 +159,7 @@ stmt
 /* ------------------------------------------------------------------ */
 
 block
-    : '{' stmt_list '}'
+    : '{' stmt_list '}'     { $$ = make_block($2); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -147,18 +171,18 @@ block
 
 decl_stmt
     : type_spec IDENTIFIER '=' expr ';'
-        { fprintf(out, "[PARSER] Declaration: %s (with init) at line %d\n", $2, line_no); }
+        { $$ = make_var_decl($1, $2, $4, line_no); }
     | type_spec IDENTIFIER ';'
-        { fprintf(out, "[PARSER] Declaration: %s (no init) at line %d\n", $2, line_no); }
+        { $$ = make_var_decl($1, $2, NULL, line_no); }
     | CONST_KW type_spec IDENTIFIER '=' expr ';'
-        { fprintf(out, "[PARSER] Const declaration: %s at line %d\n", $3, line_no); }
+        { $$ = make_const_decl($2, $3, $5, line_no); }
     ;
 
 type_spec
-    : INT_KW
-    | FLOAT_KW
-    | BOOL_KW
-    | VOID_KW
+    : INT_KW                { strcpy($$, "purno"); }
+    | FLOAT_KW              { strcpy($$, "dosomik"); }
+    | BOOL_KW               { strcpy($$, "torkik"); }
+    | VOID_KW               { strcpy($$, "shunno"); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -168,19 +192,19 @@ type_spec
 
 assign_stmt
     : IDENTIFIER '=' expr ';'
-        { fprintf(out, "[PARSER] Assignment: %s at line %d\n", $1, line_no); }
+        { $$ = make_assign(OP_ASSIGN, $1, $3, line_no); }
     | IDENTIFIER ADD_ASSIGN expr ';'
-        { fprintf(out, "[PARSER] Assignment: %s += at line %d\n", $1, line_no); }
+        { $$ = make_assign(OP_ADD_ASSIGN, $1, $3, line_no); }
     | IDENTIFIER SUB_ASSIGN expr ';'
-        { fprintf(out, "[PARSER] Assignment: %s -= at line %d\n", $1, line_no); }
+        { $$ = make_assign(OP_SUB_ASSIGN, $1, $3, line_no); }
     | IDENTIFIER MUL_ASSIGN expr ';'
-        { fprintf(out, "[PARSER] Assignment: %s *= at line %d\n", $1, line_no); }
+        { $$ = make_assign(OP_MUL_ASSIGN, $1, $3, line_no); }
     | IDENTIFIER DIV_ASSIGN expr ';'
-        { fprintf(out, "[PARSER] Assignment: %s /= at line %d\n", $1, line_no); }
+        { $$ = make_assign(OP_DIV_ASSIGN, $1, $3, line_no); }
     | IDENTIFIER INC_OP ';'
-        { fprintf(out, "[PARSER] Increment: %s at line %d\n", $1, line_no); }
+        { $$ = make_assign(OP_INC, $1, NULL, line_no); }
     | IDENTIFIER DEC_OP ';'
-        { fprintf(out, "[PARSER] Decrement: %s at line %d\n", $1, line_no); }
+        { $$ = make_assign(OP_DEC, $1, NULL, line_no); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -190,11 +214,11 @@ assign_stmt
 
 if_stmt
     : IF_KW '(' expr ')' block  %prec LOWER_THAN_ELSE
-        { fprintf(out, "[PARSER] If statement at line %d\n", line_no); }
+        { $$ = make_if_stmt($3, $5, NULL, line_no); }
     | IF_KW '(' expr ')' block ELSE_KW block
-        { fprintf(out, "[PARSER] If-Else statement at line %d\n", line_no); }
+        { $$ = make_if_stmt($3, $5, $7, line_no); }
     | IF_KW '(' expr ')' block ELSE_KW if_stmt
-        { fprintf(out, "[PARSER] If-Else-If chain at line %d\n", line_no); }
+        { $$ = make_if_stmt($3, $5, $7, line_no); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -204,7 +228,7 @@ if_stmt
 
 while_stmt
     : WHILE_KW '(' expr ')' block
-        { fprintf(out, "[PARSER] While loop at line %d\n", line_no); }
+        { $$ = make_while_stmt($3, $5, line_no); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -214,22 +238,31 @@ while_stmt
 
 for_stmt
     : FOR_KW '(' for_init ';' expr ';' for_update ')' block
-        { fprintf(out, "[PARSER] For loop at line %d\n", line_no); }
+        { $$ = make_for_stmt($3, $5, $7, $9, line_no); }
     ;
 
 for_init
     : type_spec IDENTIFIER '=' expr
+        { $$ = make_var_decl($1, $2, $4, line_no); }
     | IDENTIFIER '=' expr
+        { $$ = make_assign(OP_ASSIGN, $1, $3, line_no); }
     | /* empty */
+        { $$ = NULL; }
     ;
 
 for_update
     : IDENTIFIER INC_OP
+        { $$ = make_unary_expr(OP_INC, make_identifier($1, line_no), line_no); }
     | IDENTIFIER DEC_OP
+        { $$ = make_unary_expr(OP_DEC, make_identifier($1, line_no), line_no); }
     | IDENTIFIER '=' expr
+        { $$ = make_assign(OP_ASSIGN, $1, $3, line_no); }
     | IDENTIFIER ADD_ASSIGN expr
+        { $$ = make_assign(OP_ADD_ASSIGN, $1, $3, line_no); }
     | IDENTIFIER SUB_ASSIGN expr
+        { $$ = make_assign(OP_SUB_ASSIGN, $1, $3, line_no); }
     | /* empty */
+        { $$ = NULL; }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -239,7 +272,7 @@ for_update
 
 do_while_stmt
     : DO_KW block WHILE_KW '(' expr ')' ';'
-        { fprintf(out, "[PARSER] Do-While loop at line %d\n", line_no); }
+        { $$ = make_do_while_stmt($2, $5, line_no); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -249,19 +282,19 @@ do_while_stmt
 
 switch_stmt
     : SWITCH_KW '(' expr ')' '{' case_list '}'
-        { fprintf(out, "[PARSER] Switch statement at line %d\n", line_no); }
+        { $$ = make_switch_stmt($3, $6, line_no); }
     ;
 
 case_list
-    : /* empty */
-    | case_list case_clause
+    : /* empty */           { $$ = NULL; }
+    | case_list case_clause { $$ = append_node($1, $2); }
     ;
 
 case_clause
     : CASE_KW expr ':' stmt_list
-        { fprintf(out, "[PARSER] Case clause at line %d\n", line_no); }
+        { $$ = make_case_clause($2, $4, line_no); }
     | DEFAULT_KW ':' stmt_list
-        { fprintf(out, "[PARSER] Default clause at line %d\n", line_no); }
+        { $$ = make_default_clause($3, line_no); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -271,7 +304,7 @@ case_clause
 
 print_stmt
     : PRINT_KW expr ';'
-        { fprintf(out, "[PARSER] Print statement at line %d\n", line_no); }
+        { $$ = make_print_stmt($2, line_no); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -281,7 +314,7 @@ print_stmt
 
 input_stmt
     : INPUT_KW IDENTIFIER ';'
-        { fprintf(out, "[PARSER] Input statement: %s at line %d\n", $2, line_no); }
+        { $$ = make_input_stmt($2, line_no); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -291,9 +324,9 @@ input_stmt
 
 return_stmt
     : RETURN_KW ';'
-        { fprintf(out, "[PARSER] Return (void) at line %d\n", line_no); }
+        { $$ = make_return_stmt(NULL, line_no); }
     | RETURN_KW expr ';'
-        { fprintf(out, "[PARSER] Return (with value) at line %d\n", line_no); }
+        { $$ = make_return_stmt($2, line_no); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -302,12 +335,12 @@ return_stmt
 
 break_stmt
     : BREAK_KW ';'
-        { fprintf(out, "[PARSER] Break at line %d\n", line_no); }
+        { $$ = make_break_stmt(line_no); }
     ;
 
 continue_stmt
     : CONTINUE_KW ';'
-        { fprintf(out, "[PARSER] Continue at line %d\n", line_no); }
+        { $$ = make_continue_stmt(line_no); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -318,17 +351,18 @@ continue_stmt
 
 func_def
     : type_spec FUNC_KW IDENTIFIER '(' param_list ')' block
-        { fprintf(out, "[PARSER] Function def: %s at line %d\n", $3, line_no); }
+        { $$ = make_func_def($1, $3, $5, $7, line_no); }
     ;
 
 param_list
-    : /* empty */
-    | param
-    | param_list ',' param
+    : /* empty */           { $$ = NULL; }
+    | param                 { $$ = $1; }
+    | param_list ',' param  { $$ = append_node($1, $3); }
     ;
 
 param
     : type_spec IDENTIFIER
+        { $$ = make_param($1, $2, line_no); }
     ;
 
 /* ------------------------------------------------------------------ */
@@ -337,6 +371,7 @@ param
 
 expr_stmt
     : expr ';'
+        { $$ = make_expr_stmt($1, line_no); }
     ;
 
 /* ================================================================== */
@@ -344,38 +379,41 @@ expr_stmt
 /* ================================================================== */
 
 expr
-    : INT_LIT
-    | FLOAT_LIT
-    | STRING_LIT
-    | CHAR_LIT
-    | TRUE_KW
-    | FALSE_KW
-    | IDENTIFIER
-    | IDENTIFIER '(' arg_list ')'       /* function call */
-    | '(' expr ')'                      /* grouped */
-    | expr '+' expr
-    | expr '-' expr
-    | expr '*' expr
-    | expr '/' expr
-    | expr '%' expr
-    | expr '<' expr
-    | expr '>' expr
-    | expr LE_OP expr
-    | expr GE_OP expr
-    | expr EQ_OP expr
-    | expr NE_OP expr
-    | expr AND_OP expr
-    | expr OR_OP expr
-    | '!' expr
-    | '-' expr   %prec '!'             /* unary minus */
-    | IDENTIFIER INC_OP                /* a++ inside expr */
-    | IDENTIFIER DEC_OP                /* a-- inside expr */
+    : INT_LIT                { $$ = make_int_lit($1, line_no); }
+    | FLOAT_LIT              { $$ = make_float_lit($1, line_no); }
+    | STRING_LIT             { $$ = make_string_lit($1, line_no); }
+    | CHAR_LIT               { $$ = make_char_lit($1, line_no); }
+    | TRUE_KW                { $$ = make_bool_lit(1, line_no); }
+    | FALSE_KW               { $$ = make_bool_lit(0, line_no); }
+    | IDENTIFIER             { $$ = make_identifier($1, line_no); }
+    | IDENTIFIER '(' arg_list ')'                          /* function call */
+        { $$ = make_func_call($1, $3, line_no); }
+    | '(' expr ')'           { $$ = $2; }                  /* grouped */
+    | expr '+' expr          { $$ = make_binary_expr(OP_ADD, $1, $3, line_no); }
+    | expr '-' expr          { $$ = make_binary_expr(OP_SUB, $1, $3, line_no); }
+    | expr '*' expr          { $$ = make_binary_expr(OP_MUL, $1, $3, line_no); }
+    | expr '/' expr          { $$ = make_binary_expr(OP_DIV, $1, $3, line_no); }
+    | expr '%' expr          { $$ = make_binary_expr(OP_MOD, $1, $3, line_no); }
+    | expr '<' expr          { $$ = make_binary_expr(OP_LT,  $1, $3, line_no); }
+    | expr '>' expr          { $$ = make_binary_expr(OP_GT,  $1, $3, line_no); }
+    | expr LE_OP expr        { $$ = make_binary_expr(OP_LE,  $1, $3, line_no); }
+    | expr GE_OP expr        { $$ = make_binary_expr(OP_GE,  $1, $3, line_no); }
+    | expr EQ_OP expr        { $$ = make_binary_expr(OP_EQ,  $1, $3, line_no); }
+    | expr NE_OP expr        { $$ = make_binary_expr(OP_NE,  $1, $3, line_no); }
+    | expr AND_OP expr       { $$ = make_binary_expr(OP_AND, $1, $3, line_no); }
+    | expr OR_OP expr        { $$ = make_binary_expr(OP_OR,  $1, $3, line_no); }
+    | '!' expr               { $$ = make_unary_expr(OP_NOT, $2, line_no); }
+    | '-' expr   %prec '!'   { $$ = make_unary_expr(OP_NEG, $2, line_no); }
+    | IDENTIFIER INC_OP                                     /* a++ inside expr */
+        { $$ = make_unary_expr(OP_INC, make_identifier($1, line_no), line_no); }
+    | IDENTIFIER DEC_OP                                     /* a-- inside expr */
+        { $$ = make_unary_expr(OP_DEC, make_identifier($1, line_no), line_no); }
     ;
 
 arg_list
-    : /* empty */
-    | expr
-    | arg_list ',' expr
+    : /* empty */            { $$ = NULL; }
+    | expr                   { $$ = $1; }
+    | arg_list ',' expr      { $$ = append_node($1, $3); }
     ;
 
 %%
@@ -442,6 +480,14 @@ int main(int argc, char **argv) {
     } else {
         fprintf(out, "\n>> Compilation: FAILED (%d syntax error(s))\n", syntax_errors);
         printf("Parsing failed with %d error(s). See output.txt\n", syntax_errors);
+    }
+
+    /* ---- Pretty-print the AST ---- */
+    if (ast_root) {
+        fprintf(out, "\n===== ABSTRACT SYNTAX TREE =====\n\n");
+        print_ast(out, ast_root, 0);
+        free_ast(ast_root);
+        ast_root = NULL;
     }
 
     fclose(yyin);
