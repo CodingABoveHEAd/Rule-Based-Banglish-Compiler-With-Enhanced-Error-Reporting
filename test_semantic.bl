@@ -1,0 +1,113 @@
+// ====================================================
+// Banglish Semantic Analysis Test File (v2)
+// Tests ALL 12 semantic checks
+// ====================================================
+
+// --- 1. Valid declarations ---
+purno a = 10;
+dosomik b = 3.14;
+torkik flag = shotti;
+dhrubo purno MAX = 100;
+
+// --- 2. Redeclaration error (same scope) ---
+purno a = 20;
+
+// --- 3. Undeclared variable usage ---
+x = 5;
+
+// --- 4. Type mismatch: assigning dosomik literal to torkik ---
+torkik wrong = 3.14;
+
+// --- 5. Const reassignment ---
+MAX = 200;
+
+// --- 6. Uninitialized variable usage ---
+purno uninit;
+dekhao uninit;
+
+// --- 7. Void variable declaration ---
+shunno bad_var = 0;
+shunno also_bad;
+
+// --- 8. Break/continue outside loop ---
+tham;
+chaliejao;
+
+// --- 9. Break inside loop (VALID - should NOT error) ---
+jotokhon (a > 0) {
+    tham;
+    chaliejao;
+    a = a - 1;
+}
+
+// --- 10. Function definition with param counting ---
+purno kaj add(purno x, purno y) {
+    ferot x + y;
+}
+
+// --- 11. Function arg count mismatch ---
+purno result = add(1, 2, 3);
+
+// --- 12. Void function returning value ---
+shunno kaj greet() {
+    dekhao "hello";
+    ferot 42;
+}
+
+// --- 13. Non-void function with void return ---
+purno kaj bad_return() {
+    ferot;
+}
+
+// --- 14. Return type mismatch warning ---
+purno kaj get_flag() {
+    torkik local_flag = shotti;
+    ferot local_flag;
+}
+
+// --- 15. Modulus with float ---
+purno c = 10;
+dosomik d = 3.14;
+purno mod_result = c % d;
+
+// --- 16. Non-boolean condition warning ---
+jodi (a) {
+    dekhao "non-bool condition";
+}
+jodi (a > 0) {
+    dekhao "proper bool condition";
+}
+
+// --- 17. Scoped variables ---
+jodi (flag == shotti) {
+    purno inner = 99;
+    dekhao inner;
+}
+
+// --- 18. For loop with break (VALID) ---
+ghuro (purno i = 0; i < 10; i++) {
+    tham;
+}
+
+// --- 19. Switch with break (VALID) ---
+bachai (a) {
+    khetre 1:
+        dekhao "ek";
+        tham;
+    onnothay:
+        dekhao "onno";
+}
+
+// --- 20. Do-while with continue (VALID) ---
+koro {
+    chaliejao;
+} jotokhon (a < 20);
+
+// --- 21. Input into valid variable ---
+neo a;
+
+// --- 22. Unused variable ---
+purno unused_var = 42;
+
+// --- 23. Print expressions ---
+dekhao a + b;

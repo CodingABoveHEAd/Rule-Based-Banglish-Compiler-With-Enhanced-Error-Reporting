@@ -101,13 +101,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 41 "parser.y"
+#line 65 "parser.y"
 
     int    ival;
     double fval;
     char   sval[256];
+    int    dtype;    /* DataType enum for type tracking */
 
-#line 111 "parser.tab.h"
+#line 112 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

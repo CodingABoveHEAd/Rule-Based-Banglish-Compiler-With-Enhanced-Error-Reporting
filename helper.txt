@@ -14,3 +14,11 @@ strncpy(yylval.sval, yytext + 1, len);  yytext + 1 → skips opening quote "
 /* Resolve dangling-else: ELSE_KW binds tighter than "no else" */
 %nonassoc LOWER_THAN_ELSE
 %nonassoc ELSE_KW
+
+
+Void variable declaration (shunno x; — makes no sense)
+Break/continue outside loop (very common mistake)
+Modulus with float operands (3.14 % 2 — invalid)
+Return type mismatch (function says purno but does ferot;)
+Function param count validation (calling add(1) when it takes 2)
+Non-boolean condition warning (jodi (5) instead of jodi (5 > 0))

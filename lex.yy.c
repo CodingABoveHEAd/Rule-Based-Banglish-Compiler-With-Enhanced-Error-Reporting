@@ -1132,8 +1132,8 @@ YY_RULE_SETUP
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 137 "lexer.l"
-{
+#line 138 "lexer.l"
+{       
     literal_count++;
     yylval.sval[0] = yytext[1];
     yylval.sval[1] = '\0';
@@ -1143,7 +1143,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 144 "lexer.l"
+#line 145 "lexer.l"
 {
     fprintf(out, "LEXICAL ERROR     | Unterminated string         | line %d\n", line_no);
     error_count++;
@@ -1152,7 +1152,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 151 "lexer.l"
+#line 152 "lexer.l"
 {
     id_count++;
     strncpy(yylval.sval, yytext, 255);
@@ -1167,7 +1167,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 162 "lexer.l"
+#line 163 "lexer.l"
 {
     operator_count++;
     division_seen = 1;
@@ -1177,7 +1177,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 169 "lexer.l"
+#line 170 "lexer.l"
 {
     operator_count++;
     division_seen = 0;
@@ -1187,7 +1187,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 51:
 YY_RULE_SETUP
-#line 176 "lexer.l"
+#line 177 "lexer.l"
 {
     delimiter_count++;
     division_seen = 0;
@@ -1197,7 +1197,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 52:
 YY_RULE_SETUP
-#line 182 "lexer.l"
+#line 183 "lexer.l"
 {
     fprintf(out, "LEXICAL ERROR     | Illegal symbol '%-8s| line %d\n", yytext, line_no);
     error_count++;
@@ -1205,7 +1205,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 53:
 YY_RULE_SETUP
-#line 186 "lexer.l"
+#line 187 "lexer.l"
 ECHO;
 	YY_BREAK
 #line 1211 "lex.yy.c"
@@ -2213,7 +2213,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 186 "lexer.l"
+#line 187 "lexer.l"
 
 
 
