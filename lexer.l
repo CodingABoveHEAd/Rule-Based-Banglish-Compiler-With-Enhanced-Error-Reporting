@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include "ast.h"          /* AST node types (needed by YYSTYPE in parser.tab.h) */
 #include "parser.tab.h"
 
 /* Shared globals */

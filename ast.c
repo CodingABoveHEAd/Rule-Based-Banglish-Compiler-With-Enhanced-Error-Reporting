@@ -119,8 +119,8 @@ ASTNode *make_block(ASTNode *stmts) {
 ASTNode *make_var_decl(const char *type, const char *name,
                        ASTNode *init_expr, int line) {
     ASTNode *n = create_node(NODE_VAR_DECL, line);
-    safe_str(n->type_name, type, sizeof(n->type_name));
-    safe_str(n->name,      name, sizeof(n->name));
+    safe_str(n->type_name, type, sizeof(n->type_name)); //data type
+    safe_str(n->name,      name, sizeof(n->name));  //identifier
     n->left = init_expr;   /* initialiser expression, or NULL */
     return n;
 }
@@ -134,7 +134,7 @@ ASTNode *make_const_decl(const char *type, const char *name,
     ASTNode *n = create_node(NODE_CONST_DECL, line);
     safe_str(n->type_name, type, sizeof(n->type_name));
     safe_str(n->name,      name, sizeof(n->name));
-    n->left = init_expr;
+    n->left = init_expr;    //the literal value basically
     return n;
 }
 
@@ -505,7 +505,7 @@ void print_ast(FILE *fp, ASTNode *node, int depth) {
         print_indent(fp, depth);
         fprintf(fp, "Assign [line %d]: %s %s\n",
                 node->line_no, node->name, op_to_str(node->op));
-        if (node->left) {
+        if (node->left) {   //R.H.S of the assignment 
             print_indent(fp, depth + 1);
             fprintf(fp, "Value:\n");
             print_ast(fp, node->left, depth + 2);

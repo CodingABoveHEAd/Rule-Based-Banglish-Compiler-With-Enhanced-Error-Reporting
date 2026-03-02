@@ -101,13 +101,14 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 41 "parser.y"
+#line 49 "parser.y"
 
     int    ival;
     double fval;
     char   sval[256];
+    struct ASTNode *node;   /* AST node pointer for non-terminals      */
 
-#line 111 "parser.tab.h"
+#line 112 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
