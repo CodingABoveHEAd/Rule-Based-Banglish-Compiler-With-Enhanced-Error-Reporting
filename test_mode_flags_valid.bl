@@ -1,0 +1,14 @@
+// Test program for mode-flag verification
+// Works for analysis / generate / execute
+
+purno a = 5;
+dosomik b = 2.5;
+torkik ok = shotti;
+
+dekhao a;
+jodi (ok == shotti) {
+    dekhao "mode test";
+}
+
+a = a + 10;
+dekhao a + b;

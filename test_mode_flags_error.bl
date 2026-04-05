@@ -1,0 +1,9 @@
+// Test program to verify that generate/execute gets skipped on semantic errors
+
+purno a = 10;
+dhrubo purno MAX = 99;
+
+MAX = 100;    // semantic error: assignment to constant
+b = 5;        // semantic error: undeclared variable
+
+dekhao a;

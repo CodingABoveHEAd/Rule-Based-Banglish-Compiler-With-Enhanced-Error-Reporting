@@ -7,6 +7,11 @@ gcc lex.yy.c parser.tab.c ast.c semantic.c symbol_table.c -o banglish.exe -lm
 gcc lex.yy.c parser.tab.c ast.c semantic.c symbol_table.c codegen.c -o banglish.exe -lm
 ./banglish.exe test_semantic.bl output.txt
 
+mode flag command examples:
+./banglish.exe test_mode_flags_valid.bl mode_analysis_output.txt analysis
+./banglish.exe test_mode_flags_valid.bl mode_generate_output.txt generate
+./banglish.exe test_mode_flags_valid.bl mode_execute_output.txt execute
+
 important rules for better understanding:
 ([^\\\n]|\\.) any charecter except \ , \n or any other \t,\b rtc.
 int len = (int)strlen(yytext) - 2; -2 because two quotes elimination

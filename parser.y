@@ -44,6 +44,49 @@ ASTNode *ast_root = NULL;
 
 void yyerror(const char *msg);
 
+typedef enum {
+    MODE_ANALYSIS_ONLY = 1,
+    MODE_ANALYSIS_AND_CGEN = 2,
+    MODE_ANALYSIS_CGEN_EXEC = 3
+} RunMode;
+
+static int parse_mode(const char *mode_text, RunMode *mode) {
+    if (!mode_text || !mode) return 0;
+
+    if (strcmp(mode_text, "analysis") == 0 ||
+        strcmp(mode_text, "1") == 0) {
+        *mode = MODE_ANALYSIS_ONLY;
+        return 1;
+    }
+
+    if (strcmp(mode_text, "generate") == 0 ||
+        strcmp(mode_text, "2") == 0) {
+        *mode = MODE_ANALYSIS_AND_CGEN;
+        return 1;
+    }
+
+    if (strcmp(mode_text, "execute") == 0 ||
+        strcmp(mode_text, "3") == 0) {
+        *mode = MODE_ANALYSIS_CGEN_EXEC;
+        return 1;
+    }
+
+    return 0;
+}
+
+static const char *mode_to_text(RunMode mode) {
+    switch (mode) {
+        case MODE_ANALYSIS_ONLY:
+            return "analysis";
+        case MODE_ANALYSIS_AND_CGEN:
+            return "generate";
+        case MODE_ANALYSIS_CGEN_EXEC:
+            return "execute";
+        default:
+            return "execute";
+    }
+}
+
 static void build_codegen_paths(const char *source_path,
                                 char *c_path,
                                 size_t c_path_sz,
@@ -480,23 +523,47 @@ void yyerror(const char *msg) {
 /* ================================================================== */
 
 int main(int argc, char **argv) {
-    if (argc < 2 || argc > 3) {
-        fprintf(stderr, "Usage: %s <source-file> [output-file]\n", argv[0]);
+    const char *source_path;
+    const char *out_path = "output.txt";
+    RunMode mode = MODE_ANALYSIS_CGEN_EXEC;
+
+    if (argc < 2 || argc > 4) {
+        fprintf(stderr, "Usage: %s <source-file> [output-file] [mode]\n", argv[0]);
+        fprintf(stderr, "Mode values: analysis | generate | execute (or 1 | 2 | 3)\n");
         return 1;
     }
 
-    yyin = fopen(argv[1], "r");
+    source_path = argv[1];
+
+    if (argc == 3) {
+        if (!parse_mode(argv[2], &mode)) {
+            out_path = argv[2];
+        }
+    }
+
+    if (argc == 4) {
+        out_path = argv[2];
+        if (!parse_mode(argv[3], &mode)) {
+            fprintf(stderr, "Invalid mode '%s'. Use analysis/generate/execute or 1/2/3.\n", argv[3]);
+            return 1;
+        }
+    }
+
+    yyin = fopen(source_path, "r");
     if (!yyin) {
         perror("Cannot open source file");
         return 1;
     }
 
-    const char *out_path = (argc == 3) ? argv[2] : "output.txt";
     out = fopen(out_path, "w");
     if (!out) {
         perror("Cannot open output file");
         return 1;
     }
+
+    fprintf(out, "Compilation Mode : %s\n", mode_to_text(mode));
+    fprintf(out, "Source File      : %s\n", source_path);
+    fprintf(out, "\n");
 
     /* Token log header */
     fprintf(out, "%-16s | %-22s | %s\n", "TOKEN TYPE", "LEXEME", "LOCATION");
@@ -561,30 +628,42 @@ int main(int argc, char **argv) {
         }
 
         fprintf(out, "\n===== C CODE GENERATION & EXECUTION =====\n");
-        build_codegen_paths(argv[1],
+        build_codegen_paths(source_path,
                             c_path, sizeof(c_path),
                             exe_path, sizeof(exe_path),
                             runtime_path, sizeof(runtime_path),
                             report_path, sizeof(report_path));
 
-        if (result == 0 && syntax_errors == 0 && error_count == 0 && sem.error_count == 0) {
-            int generated = generate_c_code(ast_root, c_path, out);
-            if (generated) {
-                int executed = compile_and_run_c_code(c_path, exe_path, runtime_path, report_path, out);
-                if (executed) {
-                    fprintf(out, "[CODEGEN] C code + runtime output report: %s\n", report_path);
-                    printf("Generated C and runtime report: %s\n", report_path);
-                } else {
-                    fprintf(out, "[CODEGEN ERROR] C compile/run dhap-e somossa hoyeche.\n");
-                    printf("Generated C compile/run failed. See output report.\n");
+        if (mode == MODE_ANALYSIS_ONLY) {
+            fprintf(out, "[CODEGEN SKIPPED] Mode 'analysis' er jonno C code generation off.\n");
+        } else {
+            if (result == 0 && syntax_errors == 0 && error_count == 0 && sem.error_count == 0) {
+                int generated = generate_c_code(ast_root, c_path, out);
+                if (generated) {
+                    fprintf(out, "[CODEGEN] Generated C file: %s\n", c_path);
+                    printf("Generated C file: %s\n", c_path);
+
+                    if (mode == MODE_ANALYSIS_CGEN_EXEC) {
+                        int executed = compile_and_run_c_code(c_path, exe_path, runtime_path, report_path, out);
+                        if (executed) {
+                            fprintf(out, "[CODEGEN] C code + runtime output report: %s\n", report_path);
+                            printf("Generated C and runtime report: %s\n", report_path);
+                        } else {
+                            fprintf(out, "[CODEGEN ERROR] C compile/run dhap-e somossa hoyeche.\n");
+                            printf("Generated C compile/run failed. See output report.\n");
+                        }
+                    } else {
+                        fprintf(out, "[CODEGEN] Mode 'generate' e execution step skip kora hoyeche.\n");
+                    }
+                }
+                else {
+                    fprintf(out, "[CODEGEN ERROR] Banglish theke C code generate kora jayni.\n");
+                    printf("C code generation failed.\n");
                 }
             } else {
-                fprintf(out, "[CODEGEN ERROR] Banglish theke C code generate kora jayni.\n");
-                printf("C code generation failed.\n");
+                fprintf(out,
+                        "[CODEGEN SKIPPED] Syntax/Lexical/Semantic error thakar jonno C code run kora holo na.\n");
             }
-        } else {
-            fprintf(out,
-                    "[CODEGEN SKIPPED] Syntax/Lexical/Semantic error thakar jonno C code run kora holo na.\n");
         }
 
         symtab_destroy(sem.symtab);
