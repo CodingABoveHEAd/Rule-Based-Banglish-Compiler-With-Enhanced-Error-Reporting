@@ -4,6 +4,7 @@ unalias flex bison
 flex lexer.l
 bison -d parser.y
 gcc lex.yy.c parser.tab.c ast.c semantic.c symbol_table.c -o banglish.exe -lm
+gcc lex.yy.c parser.tab.c ast.c semantic.c symbol_table.c codegen.c -o banglish.exe -lm
 ./banglish.exe test_semantic.bl output.txt
 
 important rules for better understanding:

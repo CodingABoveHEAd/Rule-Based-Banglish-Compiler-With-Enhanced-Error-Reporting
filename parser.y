@@ -17,6 +17,7 @@
 #include <string.h>
 #include "ast.h"
 #include "semantic.h"
+#include "codegen.h"
 
 /* Provided by Flex */
 extern int  yylex(void);
@@ -42,6 +43,45 @@ int syntax_errors = 0;
 ASTNode *ast_root = NULL;
 
 void yyerror(const char *msg);
+
+static void build_codegen_paths(const char *source_path,
+                                char *c_path,
+                                size_t c_path_sz,
+                                char *exe_path,
+                                size_t exe_path_sz,
+                                char *runtime_path,
+                                size_t runtime_path_sz,
+                                char *report_path,
+                                size_t report_path_sz) {
+    const char *slash = strrchr(source_path, '/');
+    const char *bslash = strrchr(source_path, '\\');
+    const char *sep = slash;
+    const char *dot;
+    const char *base;
+    char stem[256] = {0};
+    size_t stem_len;
+
+    if (!sep || (bslash && bslash > sep)) {
+        sep = bslash;
+    }
+
+    base = sep ? (sep + 1) : source_path;
+    dot = strrchr(base, '.');
+
+    if (dot && dot > base) {
+        stem_len = (size_t)(dot - base);
+    } else {
+        stem_len = strlen(base);
+    }
+    if (stem_len >= sizeof(stem)) stem_len = sizeof(stem) - 1;
+    strncpy(stem, base, stem_len);
+    stem[stem_len] = '\0';
+
+    snprintf(c_path, c_path_sz, "%s_generated.c", stem);
+    snprintf(exe_path, exe_path_sz, "%s_generated.exe", stem);
+    snprintf(runtime_path, runtime_path_sz, "%s_runtime_output.txt", stem);
+    snprintf(report_path, report_path_sz, "%s_c_translation_and_output.txt", stem);
+}
 %}
 
 /* ------------------------------------------------------------------ */
@@ -490,6 +530,11 @@ int main(int argc, char **argv) {
 
     /* ---- Pretty-print the AST ---- */
     if (ast_root) {
+        char c_path[1024];
+        char exe_path[1024];
+        char runtime_path[1024];
+        char report_path[1024];
+
         fprintf(out, "\n===== ABSTRACT SYNTAX TREE =====\n\n");
         print_ast(out, ast_root, 0);
 
@@ -513,6 +558,33 @@ int main(int argc, char **argv) {
             fprintf(out, "\n>> Semantic: PASSED (%d warning(s))\n",
                     sem.warning_count);
             printf("Semantic analysis passed. See output.txt\n");
+        }
+
+        fprintf(out, "\n===== C CODE GENERATION & EXECUTION =====\n");
+        build_codegen_paths(argv[1],
+                            c_path, sizeof(c_path),
+                            exe_path, sizeof(exe_path),
+                            runtime_path, sizeof(runtime_path),
+                            report_path, sizeof(report_path));
+
+        if (result == 0 && syntax_errors == 0 && error_count == 0 && sem.error_count == 0) {
+            int generated = generate_c_code(ast_root, c_path, out);
+            if (generated) {
+                int executed = compile_and_run_c_code(c_path, exe_path, runtime_path, report_path, out);
+                if (executed) {
+                    fprintf(out, "[CODEGEN] C code + runtime output report: %s\n", report_path);
+                    printf("Generated C and runtime report: %s\n", report_path);
+                } else {
+                    fprintf(out, "[CODEGEN ERROR] C compile/run dhap-e somossa hoyeche.\n");
+                    printf("Generated C compile/run failed. See output report.\n");
+                }
+            } else {
+                fprintf(out, "[CODEGEN ERROR] Banglish theke C code generate kora jayni.\n");
+                printf("C code generation failed.\n");
+            }
+        } else {
+            fprintf(out,
+                    "[CODEGEN SKIPPED] Syntax/Lexical/Semantic error thakar jonno C code run kora holo na.\n");
         }
 
         symtab_destroy(sem.symtab);
