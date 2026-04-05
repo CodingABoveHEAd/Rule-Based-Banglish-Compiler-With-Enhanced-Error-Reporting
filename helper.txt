@@ -2,8 +2,9 @@ test command:
 
 unalias flex bison
 flex lexer.l
-gcc lex.yy.c -o lexer
-./lexer sample.bl > output.txt
+bison -d parser.y
+gcc lex.yy.c parser.tab.c ast.c semantic.c symbol_table.c -o banglish.exe -lm
+./banglish.exe test_semantic.bl output.txt
 
 important rules for better understanding:
 ([^\\\n]|\\.) any charecter except \ , \n or any other \t,\b rtc.

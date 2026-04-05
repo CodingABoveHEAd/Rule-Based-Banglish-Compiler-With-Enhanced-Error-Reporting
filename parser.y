@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "ast.h"
+#include "semantic.h"
 
 /* Provided by Flex */
 extern int  yylex(void);
@@ -201,11 +202,15 @@ assign_stmt
         { $$ = make_assign(OP_MUL_ASSIGN, $1, $3, line_no); }
     | IDENTIFIER DIV_ASSIGN expr ';'
         { $$ = make_assign(OP_DIV_ASSIGN, $1, $3, line_no); }
-    | IDENTIFIER INC_OP ';'
-        { $$ = make_assign(OP_INC, $1, NULL, line_no); }
-    | IDENTIFIER DEC_OP ';'
-        { $$ = make_assign(OP_DEC, $1, NULL, line_no); }
     ;
+    /*
+     * NOTE: a++; and a--; are intentionally NOT listed here.
+     * They are handled by:  expr_stmt -> expr -> IDENTIFIER INC_OP/DEC_OP
+     * Having them in both assign_stmt and expr produced a shift/reduce
+     * conflict on ';'.  Removing them here eliminates both conflicts
+     * while keeping the behaviour identical (the AST node produced by
+     * make_unary_expr(OP_INC/DEC, ...) is equivalent for all later passes).
+     */
 
 /* ------------------------------------------------------------------ */
 /*  If / Else                                                          */
@@ -435,8 +440,8 @@ void yyerror(const char *msg) {
 /* ================================================================== */
 
 int main(int argc, char **argv) {
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <source-file>\n", argv[0]);
+    if (argc < 2 || argc > 3) {
+        fprintf(stderr, "Usage: %s <source-file> [output-file]\n", argv[0]);
         return 1;
     }
 
@@ -446,9 +451,10 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    out = fopen("output.txt", "w");
+    const char *out_path = (argc == 3) ? argv[2] : "output.txt";
+    out = fopen(out_path, "w");
     if (!out) {
-        perror("Cannot open output.txt");
+        perror("Cannot open output file");
         return 1;
     }
 
@@ -486,6 +492,30 @@ int main(int argc, char **argv) {
     if (ast_root) {
         fprintf(out, "\n===== ABSTRACT SYNTAX TREE =====\n\n");
         print_ast(out, ast_root, 0);
+
+        /* ---- Semantic Analysis ---- */
+        fprintf(out, "\n===== SEMANTIC ANALYSIS =====\n");
+        SemanticResult sem = analyze_ast(ast_root, out);
+
+        fprintf(out, "\n===== SEMANTIC ANALYSIS SUMMARY =====\n");
+        fprintf(out, "Semantic errors   : %d\n", sem.error_count);
+        fprintf(out, "Semantic warnings : %d\n", sem.warning_count);
+
+        /* ---- Dump the Symbol Table ---- */
+        symtab_dump(sem.symtab, out);
+
+        if (sem.error_count > 0) {
+            fprintf(out, "\n>> Semantic: FAILED (%d error(s), %d warning(s))\n",
+                    sem.error_count, sem.warning_count);
+            printf("Semantic analysis failed with %d error(s). See output.txt\n",
+                   sem.error_count);
+        } else {
+            fprintf(out, "\n>> Semantic: PASSED (%d warning(s))\n",
+                    sem.warning_count);
+            printf("Semantic analysis passed. See output.txt\n");
+        }
+
+        symtab_destroy(sem.symtab);
         free_ast(ast_root);
         ast_root = NULL;
     }

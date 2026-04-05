@@ -1,0 +1,79 @@
+// ===== Semantic Analysis Test File =====
+// Tests various semantic errors and warnings for the Banglish compiler.
+// Expected: several semantic errors and warnings in output.txt.
+
+// --- 1) Normal declarations (should pass) ---
+purno a = 10;
+dosomik b = 3.14;
+torkik flag = shotti;
+
+// --- 2) Constant declaration (should pass) ---
+dhrubo purno MAX = 100;
+
+// --- 3) Redeclaration error: 'a' already declared ---
+purno a = 20;
+
+// --- 4) Assignment to constant error ---
+MAX = 200;
+
+// --- 5) Use before declaration error ---
+c = 50;
+
+// --- 6) Uninitialized variable warning ---
+purno d;
+dekhao d;
+
+// --- 7) Valid assignment (should pass) ---
+a = 5;
+
+// --- 8) Break outside loop (error) ---
+tham;
+
+// --- 9) Continue outside loop (error) ---
+chaliejao;
+
+// --- 10) Break inside loop (should pass) ---
+jotokhon (a > 0) {
+    a = a - 1;
+    tham;
+}
+
+// --- 11) Input to constant (error) ---
+neo MAX;
+
+// --- 12) Input to valid variable (should pass) ---
+neo a;
+
+// --- 13) Division by zero (error) ---
+purno e = 10 / 0;
+
+// --- 14) Type mismatch warning (float value to int variable) ---
+purno f = 3.14;
+
+// --- 15) Function definition (should pass) ---
+purno kaj add(purno x, purno y) {
+    ferot x + y;
+}
+
+// --- 16) Return outside function (error) ---
+ferot;
+
+// --- 17) Call undeclared function (error) ---
+multiply(2, 3);
+
+// --- 18) Increment on constant (error) ---
+MAX++;
+
+// --- 19) Valid for loop ---
+ghuro (purno i = 0; i < 5; i++) {
+    dekhao i;
+}
+
+// --- 20) Switch-case with break ---
+bachai (a) {
+    khetre 1:
+        dekhao "ek";
+        tham;
+    onnothay:
+        dekhao "onno";
+}
