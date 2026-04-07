@@ -1,0 +1,281 @@
+Compilation Mode : analysis
+Source File      : demo_step4_semantic.bl
+
+TOKEN TYPE       | LEXEME                 | LOCATION
+---------------- | ---------------------- | --------
+INT_KW           | purno                  | line 4
+IDENTIFIER       | a                      | line 4
+OPERATOR         | =                      | line 4
+INT_LIT          | 10                     | line 4
+DELIMITER        | ;                      | line 4
+INT_KW           | purno                  | line 5
+IDENTIFIER       | a                      | line 5
+OPERATOR         | =                      | line 5
+INT_LIT          | 20                     | line 5
+DELIMITER        | ;                      | line 5
+VOID_KW          | shunno                 | line 7
+IDENTIFIER       | invalidVar             | line 7
+DELIMITER        | ;                      | line 7
+CONST_KW         | dhrubo                 | line 9
+INT_KW           | purno                  | line 9
+IDENTIFIER       | MAX                    | line 9
+OPERATOR         | =                      | line 9
+INT_LIT          | 100                    | line 9
+DELIMITER        | ;                      | line 9
+IDENTIFIER       | MAX                    | line 10
+OPERATOR         | =                      | line 10
+INT_LIT          | 200                    | line 10
+DELIMITER        | ;                      | line 10
+IDENTIFIER       | MAX                    | line 11
+INC_OP           | ++                     | line 11
+DELIMITER        | ;                      | line 11
+INPUT_KW         | neo                    | line 12
+IDENTIFIER       | MAX                    | line 12
+DELIMITER        | ;                      | line 12
+IDENTIFIER       | x                      | line 14
+OPERATOR         | =                      | line 14
+INT_LIT          | 5                      | line 14
+DELIMITER        | ;                      | line 14
+INT_KW           | purno                  | line 16
+IDENTIFIER       | z                      | line 16
+DELIMITER        | ;                      | line 16
+PRINT_KW         | dekhao                 | line 17
+IDENTIFIER       | z                      | line 17
+DELIMITER        | ;                      | line 17
+INT_KW           | purno                  | line 19
+IDENTIFIER       | f                      | line 19
+OPERATOR         | =                      | line 19
+FLOAT_LIT        | 3.14                   | line 19
+DELIMITER        | ;                      | line 19
+INT_KW           | purno                  | line 20
+IDENTIFIER       | e                      | line 20
+OPERATOR         | =                      | line 20
+INT_LIT          | 10                     | line 20
+OPERATOR         | /                      | line 20
+SEMANTIC WARNING  | Division by zero            | line 20
+INT_LIT          | 0                      | line 20
+DELIMITER        | ;                      | line 20
+BREAK_KW         | tham                   | line 22
+DELIMITER        | ;                      | line 22
+CONTINUE_KW      | chaliejao              | line 23
+DELIMITER        | ;                      | line 23
+RETURN_KW        | ferot                  | line 24
+DELIMITER        | ;                      | line 24
+INT_KW           | purno                  | line 26
+FUNC_KW          | kaj                    | line 26
+IDENTIFIER       | add                    | line 26
+DELIMITER        | (                      | line 26
+INT_KW           | purno                  | line 26
+IDENTIFIER       | p                      | line 26
+DELIMITER        | ,                      | line 26
+INT_KW           | purno                  | line 26
+IDENTIFIER       | p                      | line 26
+DELIMITER        | )                      | line 26
+DELIMITER        | {                      | line 26
+RETURN_KW        | ferot                  | line 27
+IDENTIFIER       | p                      | line 27
+OPERATOR         | +                      | line 27
+IDENTIFIER       | p                      | line 27
+DELIMITER        | ;                      | line 27
+DELIMITER        | }                      | line 28
+INT_KW           | purno                  | line 30
+FUNC_KW          | kaj                    | line 30
+IDENTIFIER       | outer                  | line 30
+DELIMITER        | (                      | line 30
+DELIMITER        | )                      | line 30
+DELIMITER        | {                      | line 30
+INT_KW           | purno                  | line 31
+FUNC_KW          | kaj                    | line 31
+IDENTIFIER       | inner                  | line 31
+DELIMITER        | (                      | line 31
+DELIMITER        | )                      | line 31
+DELIMITER        | {                      | line 31
+RETURN_KW        | ferot                  | line 32
+INT_LIT          | 1                      | line 32
+DELIMITER        | ;                      | line 32
+DELIMITER        | }                      | line 33
+RETURN_KW        | ferot                  | line 34
+INT_LIT          | 0                      | line 34
+DELIMITER        | ;                      | line 34
+DELIMITER        | }                      | line 35
+IDENTIFIER       | multiply               | line 37
+DELIMITER        | (                      | line 37
+INT_LIT          | 2                      | line 37
+DELIMITER        | ,                      | line 37
+INT_LIT          | 3                      | line 37
+DELIMITER        | )                      | line 37
+DELIMITER        | ;                      | line 37
+WHILE_KW         | jotokhon               | line 39
+DELIMITER        | (                      | line 39
+IDENTIFIER       | a                      | line 39
+OPERATOR         | >                      | line 39
+INT_LIT          | 0                      | line 39
+DELIMITER        | )                      | line 39
+DELIMITER        | {                      | line 39
+IDENTIFIER       | a                      | line 40
+OPERATOR         | =                      | line 40
+IDENTIFIER       | a                      | line 40
+OPERATOR         | -                      | line 40
+INT_LIT          | 1                      | line 40
+DELIMITER        | ;                      | line 40
+BREAK_KW         | tham                   | line 41
+DELIMITER        | ;                      | line 41
+DELIMITER        | }                      | line 42
+
+===== LEXICAL ANALYSIS SUMMARY =====
+Keywords    : 26
+Identifiers : 23
+Literals    : 14
+Operators   : 13
+Delimiters  : 41
+Comments    : 18
+
+===== SYNTAX ANALYSIS SUMMARY =====
+Syntax errors  : 0
+Lexical errors : 0
+Warnings       : 1
+
+>> Compilation: SUCCESSFUL (No errors)
+
+===== ABSTRACT SYNTAX TREE =====
+
+Program
+  VarDecl [line 4]: purno a
+    Init:
+      IntLit: 10
+  VarDecl [line 5]: purno a
+    Init:
+      IntLit: 20
+  VarDecl [line 7]: shunno invalidVar
+  ConstDecl [line 9]: dhrubo purno MAX
+    Init:
+      IntLit: 100
+  Assign [line 10]: MAX =
+    Value:
+      IntLit: 200
+  ExprStmt [line 11]
+    UnaryExpr: ++
+      Ident: MAX
+  InputStmt [line 12]: MAX
+  Assign [line 14]: x =
+    Value:
+      IntLit: 5
+  VarDecl [line 16]: purno z
+  PrintStmt [line 17]
+    Ident: z
+  VarDecl [line 19]: purno f
+    Init:
+      FloatLit: 3.14
+  VarDecl [line 20]: purno e
+    Init:
+      BinaryExpr: /
+        Left:
+          IntLit: 10
+        Right:
+          IntLit: 0
+  Break [line 22]
+  Continue [line 23]
+  ReturnStmt [line 24]
+  FuncDef [line 28]: purno add
+    Params:
+      Param: purno p
+      Param: purno p
+    Body:
+      Block
+        ReturnStmt [line 27]
+          Value:
+            BinaryExpr: +
+              Left:
+                Ident: p
+              Right:
+                Ident: p
+  FuncDef [line 35]: purno outer
+    Body:
+      Block
+        FuncDef [line 33]: purno inner
+          Body:
+            Block
+              ReturnStmt [line 32]
+                Value:
+                  IntLit: 1
+        ReturnStmt [line 34]
+          Value:
+            IntLit: 0
+  ExprStmt [line 37]
+    FuncCall: multiply
+      Args:
+        IntLit: 2
+        IntLit: 3
+  WhileStmt [line 42]
+    Condition:
+      BinaryExpr: >
+        Left:
+          Ident: a
+        Right:
+          IntLit: 0
+    Body:
+      Block
+        Assign [line 40]: a =
+          Value:
+            BinaryExpr: -
+              Left:
+                Ident: a
+              Right:
+                IntLit: 1
+        Break [line 41]
+
+===== SEMANTIC ANALYSIS =====
+
+[SEMANTIC ERROR] Line 5: Punorughosona! 'a' age thekei ghosona kora hoyeche (line 4 e). Eki scope-e eki naam dui bar ghosona kora jabe na!
+
+[SEMANTIC ERROR] Line 7: 'invalidVar' ke 'shunno' (void) type diye ghosona kora jabe na! Shunno shudhu function return type hisebe byabohar hoy.
+
+[SEMANTIC ERROR] Line 10: Dhrubok 'MAX' er man poribortion kora jabe na! Dhrubok (dhrubo diye ghosito) shudhu ekbar man nite pare. (Ghosona: line 9)
+
+[SEMANTIC ERROR] Line 11: Dhrubok 'MAX' er upor ++/-- kora jabe na! Dhrubok er man poribortonyogyo noy.
+
+[SEMANTIC ERROR] Line 12: neo (input): Dhrubok 'MAX' e input neya jabe na! Dhrubok er man poribortion kora jabe na.
+
+[SEMANTIC ERROR] Line 14: 'x' ghosona kora hoyni! Byabohar korar age ghosona korun. Udahoron: purno x;
+
+[SEMANTIC WARNING] Line 17: 'z' er kono man deya hoyni kintu byabohar kora hochhe. Aage man assign korun.
+
+[SEMANTIC WARNING] Line 19: 'f' er ghosito type 'purno' kintu man er type 'dosomik'. Type mismatch hote pare!
+
+[SEMANTIC ERROR] Line 20: Shunno diye bhag kora jabe na! (division by zero)
+
+[SEMANTIC ERROR] Line 22: tham (break) shudhu loop ba switch-er vitore byabohar kora jay! Baire tham likha jabe na.
+
+[SEMANTIC ERROR] Line 23: chaliejao (continue) shudhu loop-er vitore byabohar kora jay! Baire chaliejao likha jabe na.
+
+[SEMANTIC ERROR] Line 24: ferot (return) shudhu kaj (function) er vitore byabohar kora jay! Baire ferot likha jabe na.
+
+[SEMANTIC ERROR] Line 26: Punorughosona! Parameter 'p' eki function-e duibar ghosona kora jabe na!
+
+[SEMANTIC ERROR] Line 33: Kaj (function) 'inner' er vitore arekta kaj ghosona kora jabe na! Nested function support nei.
+
+[SEMANTIC ERROR] Line 37: Kaj (function) 'multiply' ghosona kora hoyni! Call korar age function define korun.
+
+===== SEMANTIC ANALYSIS SUMMARY =====
+Semantic errors   : 13
+Semantic warnings : 2
+
+===== SYMBOL TABLE =====
+
+No.  | Naam                 | Dharon     | Prokar     | Init?  | Const? | Line  
+-----+----------------------+------------+------------+--------+--------+-------
+1    | a                    | purno      | chorocho   | ha     | na     | 4     
+2    | invalidVar           | shunno     | chorocho   | na     | na     | 7     
+3    | MAX                  | purno      | dhrubok    | ha     | ha     | 9     
+4    | z                    | purno      | chorocho   | na     | na     | 16    
+5    | f                    | purno      | chorocho   | ha     | na     | 19    
+6    | e                    | purno      | chorocho   | ha     | na     | 20    
+7    | add                  | purno      | kaj        | ha     | na     | 28    
+8    | outer                | purno      | kaj        | ha     | na     | 35    
+
+Mot symbol: 8
+
+>> Semantic: FAILED (13 error(s), 2 warning(s))
+
+===== C CODE GENERATION & EXECUTION =====
+[CODEGEN SKIPPED] Mode 'analysis' er jonno C code generation off.

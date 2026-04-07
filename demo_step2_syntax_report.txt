@@ -1,0 +1,138 @@
+Compilation Mode : analysis
+Source File      : demo_step2_syntax.bl
+
+TOKEN TYPE       | LEXEME                 | LOCATION
+---------------- | ---------------------- | --------
+INT_KW           | purno                  | line 4
+IDENTIFIER       | a                      | line 4
+OPERATOR         | =                      | line 4
+INT_LIT          | 10                     | line 4
+IF_KW            | jodi                   | line 7
+
+[SYNTAX ERROR] Line 7: syntax error
+  -> Banglish: 'jodi' er kache syntax bhul ache.
+  -> Suggestion: Ei line-e statement thik kore likhun.
+
+DELIMITER        | (                      | line 7
+IDENTIFIER       | a                      | line 7
+OPERATOR         | >                      | line 7
+INT_LIT          | 5                      | line 7
+DELIMITER        | {                      | line 7
+PRINT_KW         | dekhao                 | line 8
+IDENTIFIER       | a                      | line 8
+DELIMITER        | ;                      | line 8
+DELIMITER        | }                      | line 9
+
+[SYNTAX ERROR] Line 9: syntax error
+  -> Banglish: '}' er kache syntax bhul ache.
+  -> Suggestion: Ei line-e statement thik kore likhun.
+
+FOR_KW           | ghuro                  | line 12
+DELIMITER        | (                      | line 12
+INT_KW           | purno                  | line 12
+IDENTIFIER       | i                      | line 12
+OPERATOR         | =                      | line 12
+INT_LIT          | 0                      | line 12
+IDENTIFIER       | i                      | line 12
+OPERATOR         | <                      | line 12
+INT_LIT          | 3                      | line 12
+DELIMITER        | ;                      | line 12
+IDENTIFIER       | i                      | line 12
+INC_OP           | ++                     | line 12
+DELIMITER        | )                      | line 12
+
+[SYNTAX ERROR] Line 12: syntax error
+  -> Banglish: ')' er kache syntax bhul ache.
+  -> Suggestion: Ei line-e statement thik kore likhun.
+
+DELIMITER        | {                      | line 12
+PRINT_KW         | dekhao                 | line 13
+IDENTIFIER       | i                      | line 13
+DELIMITER        | ;                      | line 13
+DELIMITER        | }                      | line 14
+
+[SYNTAX ERROR] Line 14: syntax error
+  -> Banglish: '}' er kache syntax bhul ache.
+  -> Suggestion: Ei line-e statement thik kore likhun.
+
+SWITCH_KW        | bachai                 | line 17
+DELIMITER        | (                      | line 17
+IDENTIFIER       | a                      | line 17
+DELIMITER        | )                      | line 17
+DELIMITER        | {                      | line 17
+CASE_KW          | khetre                 | line 18
+INT_LIT          | 1                      | line 18
+PRINT_KW         | dekhao                 | line 19
+STRING_LIT       | "one"                  | line 19
+DELIMITER        | ;                      | line 19
+BREAK_KW         | tham                   | line 20
+DELIMITER        | ;                      | line 20
+DEFAULT_KW       | onnothay               | line 21
+
+[SYNTAX ERROR] Line 21: syntax error
+  -> Banglish: 'onnothay' er kache syntax bhul ache.
+  -> Suggestion: Ei line-e statement thik kore likhun.
+
+DELIMITER        | :                      | line 21
+PRINT_KW         | dekhao                 | line 22
+STRING_LIT       | "other"                | line 22
+DELIMITER        | ;                      | line 22
+DELIMITER        | }                      | line 23
+
+[SYNTAX ERROR] Line 23: syntax error
+  -> Banglish: '}' er kache syntax bhul ache.
+  -> Suggestion: Ei line-e statement thik kore likhun.
+
+WHILE_KW         | jotokhon               | line 26
+DELIMITER        | (                      | line 26
+IDENTIFIER       | a                      | line 26
+OPERATOR         | >                      | line 26
+INT_LIT          | 0                      | line 26
+DELIMITER        | )                      | line 26
+DELIMITER        | {                      | line 26
+IDENTIFIER       | a                      | line 27
+OPERATOR         | =                      | line 27
+IDENTIFIER       | a                      | line 27
+OPERATOR         | -                      | line 27
+INT_LIT          | 1                      | line 27
+DELIMITER        | ;                      | line 27
+
+===== LEXICAL ANALYSIS SUMMARY =====
+Keywords    : 13
+Identifiers : 11
+Literals    : 9
+Operators   : 8
+Delimiters  : 22
+Comments    : 6
+
+===== SYNTAX ANALYSIS SUMMARY =====
+Syntax errors  : 6
+Lexical errors : 0
+Warnings       : 0
+
+>> Compilation: FAILED (6 syntax error(s))
+
+===== ABSTRACT SYNTAX TREE =====
+
+Program
+  Break [line 20]
+
+===== SEMANTIC ANALYSIS =====
+
+[SEMANTIC ERROR] Line 20: tham (break) shudhu loop ba switch-er vitore byabohar kora jay! Baire tham likha jabe na.
+
+===== SEMANTIC ANALYSIS SUMMARY =====
+Semantic errors   : 1
+Semantic warnings : 0
+
+===== SYMBOL TABLE =====
+
+No.  | Naam                 | Dharon     | Prokar     | Init?  | Const? | Line  
+-----+----------------------+------------+------------+--------+--------+-------
+
+Mot symbol: 0
+
+>> Semantic: FAILED (1 error(s), 0 warning(s))
+
+===== C CODE GENERATION & EXECUTION =====
+[CODEGEN SKIPPED] Mode 'analysis' er jonno C code generation off.

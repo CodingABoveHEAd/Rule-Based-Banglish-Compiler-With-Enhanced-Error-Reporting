@@ -1,0 +1,62 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+void banner();
+int add(int x, int y);
+
+void banner()
+{
+    printf("%s\n", "Program started");
+    return;
+}
+
+int add(int x, int y)
+{
+    return (x + y);
+}
+
+int main(void)
+{
+    freopen("NUL", "r", stdin);
+    int a = 4;
+    double b = 1.5;
+    int ok = 1;
+    const int LIMIT = 3;
+    banner();
+    if ((ok == 1))
+    {
+        printf("%s\n", "ok true");
+    }
+    else
+    {
+        printf("%s\n", "ok false");
+    }
+    while ((a > 0))
+    {
+        a--;
+    }
+    for (int i = 0; (i < LIMIT); i++)
+    {
+        printf("%d\n", (int)i);
+    }
+    do
+    {
+        a = (a + 1);
+    }
+    while ((a < 2));
+    switch (a) {
+        case 1:
+            printf("%s\n", "one");
+            break;
+        case 2:
+            printf("%s\n", "two");
+            break;
+        default:
+            printf("%s\n", "other");
+    }
+    int sum = add(7, 8);
+    printf("%d\n", (int)sum);
+    printf("%g\n", (double)(a + b));
+    printf("%c\n", 'X');
+    return 0;
+}

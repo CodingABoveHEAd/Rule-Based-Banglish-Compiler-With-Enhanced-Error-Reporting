@@ -1,0 +1,52 @@
+// STEP 5: C Generation + Execution Demo (Extended)
+// Goal: show generated C and runtime output with many valid constructs.
+
+purno a = 4;
+dosomik b = 1.5;
+torkik ok = shotti;
+dhrubo purno LIMIT = 3;
+
+shunno kaj banner() {
+    dekhao "Program started";
+    ferot;
+}
+
+purno kaj add(purno x, purno y) {
+    ferot x + y;
+}
+
+banner();
+
+jodi (ok == shotti) {
+    dekhao "ok true";
+} nahole {
+    dekhao "ok false";
+}
+
+jotokhon (a > 0) {
+    a--;
+}
+
+ghuro (purno i = 0; i < LIMIT; i++) {
+    dekhao i;
+}
+
+koro {
+    a = a + 1;
+} jotokhon (a < 2);
+
+bachai (a) {
+    khetre 1:
+        dekhao "one";
+        tham;
+    khetre 2:
+        dekhao "two";
+        tham;
+    onnothay:
+        dekhao "other";
+}
+
+purno sum = add(7, 8);
+dekhao sum;
+dekhao a + b;
+dekhao 'X';

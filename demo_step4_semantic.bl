@@ -1,0 +1,42 @@
+// STEP 4: Semantic Analyzer Demo (Extended)
+// Goal: trigger many semantic errors/warnings with syntactically valid code.
+
+purno a = 10;
+purno a = 20;       // error: redeclaration in same scope
+
+shunno invalidVar;  // error: void variable declaration
+
+dhrubo purno MAX = 100;
+MAX = 200;          // error: assign to constant
+MAX++;              // error: increment constant
+neo MAX;            // error: input to constant
+
+x = 5;              // error: undeclared variable
+
+purno z;
+dekhao z;           // warning: use before initialization
+
+purno f = 3.14;     // warning: type mismatch (float to int)
+purno e = 10 / 0;   // error: integer division by zero
+
+tham;               // error: break outside loop/switch
+chaliejao;          // error: continue outside loop
+ferot;              // error: return outside function
+
+purno kaj add(purno p, purno p) {   // error: duplicate parameter name
+	ferot p + p;
+}
+
+purno kaj outer() {
+	purno kaj inner() {              // error: nested function definition
+		ferot 1;
+	}
+	ferot 0;
+}
+
+multiply(2, 3);      // error: undeclared function call
+
+jotokhon (a > 0) {
+	a = a - 1;
+	tham;             // valid (inside loop)
+}

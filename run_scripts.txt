@@ -1,0 +1,22 @@
+A) Build once
+cd "D:/3-2/Compiler Project/Rule-Based-Banglish-Compiler-With-Enhanced-Error-Reporting"
+unalias flex bison 2>/dev/null || true
+flex lexer.l
+bison -d parser.y
+gcc lex.yy.c parser.tab.c ast.c semantic.c symbol_table.c codegen.c -o banglish.exe
+
+B) Step 1 lexical analyzer demonstration
+./banglish.exe demo_step1_lexical.bl demo_step1_lexical_report.txt analysis
+
+C) Step 2 syntax analyzer demonstration
+./banglish.exe demo_step2_syntax.bl demo_step2_syntax_report.txt analysis
+
+D) Step 3 AST generation demonstration
+./banglish.exe demo_step3_ast_valid.bl demo_step3_ast_report.txt analysis
+
+E) Step 4 semantic analysis demonstration
+./banglish.exe demo_step4_semantic.bl demo_step4_semantic_report.txt analysis
+
+F) Step 5 C generation + execution demonstration
+./banglish.exe demo_step5_codegen_execute.bl demo_step5_pipeline_report.txt execute
+

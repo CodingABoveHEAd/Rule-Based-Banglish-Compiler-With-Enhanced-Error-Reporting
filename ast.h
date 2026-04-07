@@ -15,11 +15,6 @@
  *   by calloc().  This keeps the API simple and highly readable — ideal
  *   for a university compiler-lab front end.
  *
- * Constraints:
- *   - No symbol-table logic
- *   - No expression evaluation
- *   - No code generation
- *   This is a pure AST module for the compiler front end.
  */
 
 #ifndef AST_H

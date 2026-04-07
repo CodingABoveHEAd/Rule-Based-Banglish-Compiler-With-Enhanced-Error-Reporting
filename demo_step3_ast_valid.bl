@@ -1,0 +1,54 @@
+// STEP 3: AST Demo (Extended, valid syntax)
+// Goal: show AST generation for almost all constructs.
+
+purno a = 2;
+dosomik b = 1.5;
+torkik ok = shotti;
+dhrubo purno LIMIT = 3;
+
+jodi (ok == shotti) {
+    dekhao a;
+} nahole {
+    dekhao 0;
+}
+
+jotokhon (a < 5) {
+    a = a + 1;
+}
+
+ghuro (purno i = 0; i < LIMIT; i++) {
+    dekhao i;
+    tham;
+}
+
+koro {
+    a = a - 1;
+} jotokhon (a > 1);
+
+bachai (a) {
+    khetre 1:
+        dekhao "one";
+        tham;
+    khetre 2:
+        dekhao "two";
+        tham;
+    onnothay:
+        dekhao "other";
+}
+
+purno kaj add(purno x, purno y) {
+    ferot x + y;
+}
+
+neo a;
+
+a += 2;
+a -= 1;
+a *= 2;
+a /= 2;
+a++;
+a--;
+
+dekhao add(a, 3);
+dekhao a + b;
+dekhao 'X';

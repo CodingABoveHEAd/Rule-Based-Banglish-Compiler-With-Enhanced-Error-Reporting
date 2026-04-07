@@ -28,8 +28,7 @@
  *   - Man na diye chorocho byabohar (use of uninitialized variable)
  *
  * Design:
- *   - Fully AST-driven — no parser or lexer coupling
- *   - No evaluation or code generation
+
  *   - Clean separation: symbol_table.c handles storage,
  *     semantic.c handles traversal and checking
  */

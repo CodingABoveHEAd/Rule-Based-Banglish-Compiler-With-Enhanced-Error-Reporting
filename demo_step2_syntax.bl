@@ -1,0 +1,28 @@
+// STEP 2: Syntax Analyzer Demo (Extended)
+// Goal: show multiple syntax errors while most lexical tokens are valid.
+
+purno a = 10
+
+// missing ')' before block
+jodi (a > 5 {
+    dekhao a;
+}
+
+// for loop missing middle ';'
+ghuro (purno i = 0 i < 3; i++) {
+    dekhao i;
+}
+
+// switch case missing ':'
+bachai (a) {
+    khetre 1
+        dekhao "one";
+        tham;
+    onnothay:
+        dekhao "other";
+}
+
+// missing closing brace for while block
+jotokhon (a > 0) {
+    a = a - 1;
+

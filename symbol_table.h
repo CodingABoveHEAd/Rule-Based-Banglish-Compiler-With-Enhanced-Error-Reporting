@@ -17,11 +17,6 @@
  *   - No evaluation logic lives here — this is pure bookkeeping.
  *   - Error messages are in Banglish for consistency with the rest
  *     of the compiler.
- *
- * Constraints:
- *   - No code generation
- *   - No expression evaluation
- *   - No optimisation
  */
 
 #ifndef SYMBOL_TABLE_H

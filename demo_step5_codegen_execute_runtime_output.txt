@@ -1,0 +1,9 @@
+Program started
+ok true
+0
+1
+2
+two
+15
+3.5
+X

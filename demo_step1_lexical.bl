@@ -1,0 +1,44 @@
+// STEP 1: Lexical Analyzer Demo (Extended)
+// Goal: show tokenization, keyword/operator coverage, and lexical warnings/errors.
+
+// valid declarations and literals
+purno a = 10;
+dosomik b = 3.25;
+torkik flag = shotti;
+purno khubLombaIdentifierNametaOnekBoro123 = 1; // should trigger long identifier warning
+
+// operators and delimiters
+a += 2;
+a -= 1;
+a *= 3;
+a /= 2;
+a++;
+a--;
+
+jodi (a >= 1 && flag == shotti) {
+	dekhao "Lexical demo start";
+} nahole {
+	dekhao 'N';
+}
+
+// single line comment count test
+// another single line comment
+
+/* multi-line comment count test
+   still valid
+*/
+
+// invalid identifier (starts with digit)
+123abc
+
+// invalid number (two dots)
+12.3.4
+
+// illegal symbol
+@
+
+// unterminated string
+"This string is not closed
+
+// unterminated multi-line comment (EOF test)
+/* comment starts but never ends

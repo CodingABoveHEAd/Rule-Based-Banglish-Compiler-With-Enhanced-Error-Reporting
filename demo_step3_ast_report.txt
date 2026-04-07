@@ -1,0 +1,366 @@
+Compilation Mode : analysis
+Source File      : demo_step3_ast_valid.bl
+
+TOKEN TYPE       | LEXEME                 | LOCATION
+---------------- | ---------------------- | --------
+INT_KW           | purno                  | line 4
+IDENTIFIER       | a                      | line 4
+OPERATOR         | =                      | line 4
+INT_LIT          | 2                      | line 4
+DELIMITER        | ;                      | line 4
+FLOAT_KW         | dosomik                | line 5
+IDENTIFIER       | b                      | line 5
+OPERATOR         | =                      | line 5
+FLOAT_LIT        | 1.5                    | line 5
+DELIMITER        | ;                      | line 5
+BOOL_KW          | torkik                 | line 6
+IDENTIFIER       | ok                     | line 6
+OPERATOR         | =                      | line 6
+TRUE_KW          | shotti                 | line 6
+DELIMITER        | ;                      | line 6
+CONST_KW         | dhrubo                 | line 7
+INT_KW           | purno                  | line 7
+IDENTIFIER       | LIMIT                  | line 7
+OPERATOR         | =                      | line 7
+INT_LIT          | 3                      | line 7
+DELIMITER        | ;                      | line 7
+IF_KW            | jodi                   | line 9
+DELIMITER        | (                      | line 9
+IDENTIFIER       | ok                     | line 9
+EQ_OP            | ==                     | line 9
+TRUE_KW          | shotti                 | line 9
+DELIMITER        | )                      | line 9
+DELIMITER        | {                      | line 9
+PRINT_KW         | dekhao                 | line 10
+IDENTIFIER       | a                      | line 10
+DELIMITER        | ;                      | line 10
+DELIMITER        | }                      | line 11
+ELSE_KW          | nahole                 | line 11
+DELIMITER        | {                      | line 11
+PRINT_KW         | dekhao                 | line 12
+INT_LIT          | 0                      | line 12
+DELIMITER        | ;                      | line 12
+DELIMITER        | }                      | line 13
+WHILE_KW         | jotokhon               | line 15
+DELIMITER        | (                      | line 15
+IDENTIFIER       | a                      | line 15
+OPERATOR         | <                      | line 15
+INT_LIT          | 5                      | line 15
+DELIMITER        | )                      | line 15
+DELIMITER        | {                      | line 15
+IDENTIFIER       | a                      | line 16
+OPERATOR         | =                      | line 16
+IDENTIFIER       | a                      | line 16
+OPERATOR         | +                      | line 16
+INT_LIT          | 1                      | line 16
+DELIMITER        | ;                      | line 16
+DELIMITER        | }                      | line 17
+FOR_KW           | ghuro                  | line 19
+DELIMITER        | (                      | line 19
+INT_KW           | purno                  | line 19
+IDENTIFIER       | i                      | line 19
+OPERATOR         | =                      | line 19
+INT_LIT          | 0                      | line 19
+DELIMITER        | ;                      | line 19
+IDENTIFIER       | i                      | line 19
+OPERATOR         | <                      | line 19
+IDENTIFIER       | LIMIT                  | line 19
+DELIMITER        | ;                      | line 19
+IDENTIFIER       | i                      | line 19
+INC_OP           | ++                     | line 19
+DELIMITER        | )                      | line 19
+DELIMITER        | {                      | line 19
+PRINT_KW         | dekhao                 | line 20
+IDENTIFIER       | i                      | line 20
+DELIMITER        | ;                      | line 20
+BREAK_KW         | tham                   | line 21
+DELIMITER        | ;                      | line 21
+DELIMITER        | }                      | line 22
+DO_KW            | koro                   | line 24
+DELIMITER        | {                      | line 24
+IDENTIFIER       | a                      | line 25
+OPERATOR         | =                      | line 25
+IDENTIFIER       | a                      | line 25
+OPERATOR         | -                      | line 25
+INT_LIT          | 1                      | line 25
+DELIMITER        | ;                      | line 25
+DELIMITER        | }                      | line 26
+WHILE_KW         | jotokhon               | line 26
+DELIMITER        | (                      | line 26
+IDENTIFIER       | a                      | line 26
+OPERATOR         | >                      | line 26
+INT_LIT          | 1                      | line 26
+DELIMITER        | )                      | line 26
+DELIMITER        | ;                      | line 26
+SWITCH_KW        | bachai                 | line 28
+DELIMITER        | (                      | line 28
+IDENTIFIER       | a                      | line 28
+DELIMITER        | )                      | line 28
+DELIMITER        | {                      | line 28
+CASE_KW          | khetre                 | line 29
+INT_LIT          | 1                      | line 29
+DELIMITER        | :                      | line 29
+PRINT_KW         | dekhao                 | line 30
+STRING_LIT       | "one"                  | line 30
+DELIMITER        | ;                      | line 30
+BREAK_KW         | tham                   | line 31
+DELIMITER        | ;                      | line 31
+CASE_KW          | khetre                 | line 32
+INT_LIT          | 2                      | line 32
+DELIMITER        | :                      | line 32
+PRINT_KW         | dekhao                 | line 33
+STRING_LIT       | "two"                  | line 33
+DELIMITER        | ;                      | line 33
+BREAK_KW         | tham                   | line 34
+DELIMITER        | ;                      | line 34
+DEFAULT_KW       | onnothay               | line 35
+DELIMITER        | :                      | line 35
+PRINT_KW         | dekhao                 | line 36
+STRING_LIT       | "other"                | line 36
+DELIMITER        | ;                      | line 36
+DELIMITER        | }                      | line 37
+INT_KW           | purno                  | line 39
+FUNC_KW          | kaj                    | line 39
+IDENTIFIER       | add                    | line 39
+DELIMITER        | (                      | line 39
+INT_KW           | purno                  | line 39
+IDENTIFIER       | x                      | line 39
+DELIMITER        | ,                      | line 39
+INT_KW           | purno                  | line 39
+IDENTIFIER       | y                      | line 39
+DELIMITER        | )                      | line 39
+DELIMITER        | {                      | line 39
+RETURN_KW        | ferot                  | line 40
+IDENTIFIER       | x                      | line 40
+OPERATOR         | +                      | line 40
+IDENTIFIER       | y                      | line 40
+DELIMITER        | ;                      | line 40
+DELIMITER        | }                      | line 41
+INPUT_KW         | neo                    | line 43
+IDENTIFIER       | a                      | line 43
+DELIMITER        | ;                      | line 43
+IDENTIFIER       | a                      | line 45
+ADD_ASSIGN       | +=                     | line 45
+INT_LIT          | 2                      | line 45
+DELIMITER        | ;                      | line 45
+IDENTIFIER       | a                      | line 46
+SUB_ASSIGN       | -=                     | line 46
+INT_LIT          | 1                      | line 46
+DELIMITER        | ;                      | line 46
+IDENTIFIER       | a                      | line 47
+MUL_ASSIGN       | *=                     | line 47
+INT_LIT          | 2                      | line 47
+DELIMITER        | ;                      | line 47
+IDENTIFIER       | a                      | line 48
+DIV_ASSIGN       | /=                     | line 48
+INT_LIT          | 2                      | line 48
+DELIMITER        | ;                      | line 48
+IDENTIFIER       | a                      | line 49
+INC_OP           | ++                     | line 49
+DELIMITER        | ;                      | line 49
+IDENTIFIER       | a                      | line 50
+DEC_OP           | --                     | line 50
+DELIMITER        | ;                      | line 50
+PRINT_KW         | dekhao                 | line 52
+IDENTIFIER       | add                    | line 52
+DELIMITER        | (                      | line 52
+IDENTIFIER       | a                      | line 52
+DELIMITER        | ,                      | line 52
+INT_LIT          | 3                      | line 52
+DELIMITER        | )                      | line 52
+DELIMITER        | ;                      | line 52
+PRINT_KW         | dekhao                 | line 53
+IDENTIFIER       | a                      | line 53
+OPERATOR         | +                      | line 53
+IDENTIFIER       | b                      | line 53
+DELIMITER        | ;                      | line 53
+PRINT_KW         | dekhao                 | line 54
+CHAR_LIT         | 'X'                    | line 54
+DELIMITER        | ;                      | line 54
+
+===== LEXICAL ANALYSIS SUMMARY =====
+Keywords    : 36
+Identifiers : 34
+Literals    : 20
+Operators   : 22
+Delimiters  : 62
+Comments    : 2
+
+===== SYNTAX ANALYSIS SUMMARY =====
+Syntax errors  : 0
+Lexical errors : 0
+Warnings       : 0
+
+>> Compilation: SUCCESSFUL (No errors)
+
+===== ABSTRACT SYNTAX TREE =====
+
+Program
+  VarDecl [line 4]: purno a
+    Init:
+      IntLit: 2
+  VarDecl [line 5]: dosomik b
+    Init:
+      FloatLit: 1.5
+  VarDecl [line 6]: torkik ok
+    Init:
+      BoolLit: shotti
+  ConstDecl [line 7]: dhrubo purno LIMIT
+    Init:
+      IntLit: 3
+  IfStmt [line 13]
+    Condition:
+      BinaryExpr: ==
+        Left:
+          Ident: ok
+        Right:
+          BoolLit: shotti
+    Then:
+      Block
+        PrintStmt [line 10]
+          Ident: a
+    Else:
+      Block
+        PrintStmt [line 12]
+          IntLit: 0
+  WhileStmt [line 17]
+    Condition:
+      BinaryExpr: <
+        Left:
+          Ident: a
+        Right:
+          IntLit: 5
+    Body:
+      Block
+        Assign [line 16]: a =
+          Value:
+            BinaryExpr: +
+              Left:
+                Ident: a
+              Right:
+                IntLit: 1
+  ForStmt [line 22]
+    Init:
+      VarDecl [line 19]: purno i
+        Init:
+          IntLit: 0
+    Condition:
+      BinaryExpr: <
+        Left:
+          Ident: i
+        Right:
+          Ident: LIMIT
+    Update:
+      UnaryExpr: ++
+        Ident: i
+    Body:
+      Block
+        PrintStmt [line 20]
+          Ident: i
+        Break [line 21]
+  DoWhileStmt [line 26]
+    Body:
+      Block
+        Assign [line 25]: a =
+          Value:
+            BinaryExpr: -
+              Left:
+                Ident: a
+              Right:
+                IntLit: 1
+    Condition:
+      BinaryExpr: >
+        Left:
+          Ident: a
+        Right:
+          IntLit: 1
+  SwitchStmt [line 37]
+    Expr:
+      Ident: a
+    Cases:
+      Case [line 32]
+        Value:
+          IntLit: 1
+        Body:
+          PrintStmt [line 30]
+            StringLit: "one"
+          Break [line 31]
+      Case [line 35]
+        Value:
+          IntLit: 2
+        Body:
+          PrintStmt [line 33]
+            StringLit: "two"
+          Break [line 34]
+      Default [line 37]
+        Body:
+          PrintStmt [line 36]
+            StringLit: "other"
+  FuncDef [line 41]: purno add
+    Params:
+      Param: purno x
+      Param: purno y
+    Body:
+      Block
+        ReturnStmt [line 40]
+          Value:
+            BinaryExpr: +
+              Left:
+                Ident: x
+              Right:
+                Ident: y
+  InputStmt [line 43]: a
+  Assign [line 45]: a +=
+    Value:
+      IntLit: 2
+  Assign [line 46]: a -=
+    Value:
+      IntLit: 1
+  Assign [line 47]: a *=
+    Value:
+      IntLit: 2
+  Assign [line 48]: a /=
+    Value:
+      IntLit: 2
+  ExprStmt [line 49]
+    UnaryExpr: ++
+      Ident: a
+  ExprStmt [line 50]
+    UnaryExpr: --
+      Ident: a
+  PrintStmt [line 52]
+    FuncCall: add
+      Args:
+        Ident: a
+        IntLit: 3
+  PrintStmt [line 53]
+    BinaryExpr: +
+      Left:
+        Ident: a
+      Right:
+        Ident: b
+  PrintStmt [line 54]
+    CharLit: 'X'
+
+===== SEMANTIC ANALYSIS =====
+
+===== SEMANTIC ANALYSIS SUMMARY =====
+Semantic errors   : 0
+Semantic warnings : 0
+
+===== SYMBOL TABLE =====
+
+No.  | Naam                 | Dharon     | Prokar     | Init?  | Const? | Line  
+-----+----------------------+------------+------------+--------+--------+-------
+1    | a                    | purno      | chorocho   | ha     | na     | 4     
+2    | b                    | dosomik    | chorocho   | ha     | na     | 5     
+3    | ok                   | torkik     | chorocho   | ha     | na     | 6     
+4    | LIMIT                | purno      | dhrubok    | ha     | ha     | 7     
+5    | add                  | purno      | kaj        | ha     | na     | 41    
+
+Mot symbol: 5
+
+>> Semantic: PASSED (0 warning(s))
+
+===== C CODE GENERATION & EXECUTION =====
+[CODEGEN SKIPPED] Mode 'analysis' er jonno C code generation off.
