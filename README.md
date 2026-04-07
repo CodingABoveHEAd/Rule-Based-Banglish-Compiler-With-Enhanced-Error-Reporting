@@ -73,6 +73,48 @@ Banglish Source (.bl)
 		-> Main analysis report (chosen output file)
 ```
 
+### Visual Workflow Diagram (Mermaid)
+
+```mermaid
+flowchart TD
+	A[Banglish Source File<br/>.bl] --> B[Lexical Analysis<br/>Flex Lexer]
+	B --> C[Syntax Analysis<br/>Bison Parser]
+	C --> D[AST Generation]
+	D --> E[Semantic Analysis]
+	E --> F{Selected Mode}
+
+	F -->|analysis| G[Write Analysis Report Only]
+	F -->|generate| H[Generate C Code<br/>source_generated.c]
+	F -->|execute| H
+
+	H --> I[Compile Generated C with GCC]
+	I --> J[Run Executable]
+	J --> K[Runtime Output + Combined Report]
+
+	B -. lexical errors .-> X[Enhanced Error Reporting]
+	C -. syntax errors .-> X
+	E -. semantic errors/warnings .-> X
+	X --> G
+```
+
+### Dataflow Diagram (Mermaid)
+
+```mermaid
+flowchart LR
+	S[Input: program.bl] --> T[Token Stream]
+	T --> P[Parse Tree / AST]
+	P --> M[Semantic Model + Symbol Table]
+	M --> R[Main Report File]
+
+	M --> C[Generated C File<br/>program_generated.c]
+	C --> E[Generated Executable<br/>program_generated.exe]
+	E --> O[Runtime Output File<br/>program_runtime_output.txt]
+	C --> CR[Compile Error File<br/>program_generated.c.compile_errors.txt]
+	C --> COMB[Combined Translation + Output Report<br/>program_c_translation_and_output.txt]
+	O --> COMB
+	CR --> COMB
+```
+
 ### Step-by-step explanation
 
 1. **Input Banglish code**
